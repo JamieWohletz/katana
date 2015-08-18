@@ -1,12 +1,8 @@
-<div id="video-player-input-wrapper">
-  <label for="video-player-input">Enter YouTube video URL:</label><br>
-  {{input id="video-player-input" type="text" value=videoUrl}}
-</div>
+{{video-player-url-input videoId=videoId}}
 <div id="video-player">
   {{ember-youtube
     ytid=videoId
     playerVars=playerVars
   }}
 </div>
-<div id="video-player-clip-controls">
-</div>
+{{video-player-clip-controls}}

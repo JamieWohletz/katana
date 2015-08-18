@@ -14,18 +14,5 @@ export default Ember.Component.extend({
     // iv_load_policy: 3,
     modestbranding: 0
   },
-
-  videoId: Ember.computed('videoUrl', function(){
-    var videoUrl = this.get('videoUrl');
-    if(!videoUrl) {
-      return '';
-    }
-
-    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    var match = videoUrl.match(regExp);
-    if (match && match[2].length == 11) {
-      return match[2];
-    }
-    return '';
-  })
+  videoId: ''
 });

@@ -1,0 +1,24 @@
+#video-player-input-wrapper, #video-player {
+  text-align:center;
+}
+#video-player-input-wrapper {
+  margin-bottom:25px;
+}
+#video-player-input-wrapper input {
+  width:640px;
+  height:25px;
+}
+#video-player {
+}
+#video-player-clip-controls {
+  margin-left:auto;
+  margin-right:auto;
+  background:black;
+  width:640px;
+  height:75px;
+  margin-top:25px;
+}
+#EmberYoutube-player {
+  width:640px;
+  height:360px;
+}

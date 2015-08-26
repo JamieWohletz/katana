@@ -42,9 +42,10 @@
   {{/unless}}
   {{#each slices as |slice|}}
     <div class="video-player-slice-wrapper">
-      <div 
-        {{action "playSliceAction" slice}}
-        class="video-player-slice"
+      <div
+        {{action "togglePlaySliceAction" slice}}
+        class="video-player-slice
+          {{if playingSlice 'active'}}"
         style={{slice.style}}>
       </div>
     </div>

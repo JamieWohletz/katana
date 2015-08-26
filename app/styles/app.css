@@ -45,6 +45,7 @@
   padding:5px 0;
 }
 .video-player-slice {
+  cursor:pointer;
   height:10px;
   width:100%;
   position:absolute;
@@ -54,8 +55,8 @@
   border-left:solid 2px white;
   border-right:solid 2px white;
 }
-.video-player-slice-grab {
-  cursor:e-resize;
+.video-player-slice.active {
+  background: #f1e924;
 }
 .no-select {
     -webkit-touch-callout: none;

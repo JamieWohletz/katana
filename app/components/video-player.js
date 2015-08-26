@@ -9,7 +9,10 @@ export default Ember.Component.extend({
   slices: [],
   // Are we currently creating a new slice?
   slicing: false,
+  // Are we playing (read: looping over) a slice?
+  playingSlice: false,
   // If we're slicing, this becomes the slice we're working with
+  // It's also used to track the currently-playing slice
   currentSlice: null,
   // Variables for the youtube player component
   playerVars: {
@@ -47,6 +50,21 @@ export default Ember.Component.extend({
 
     this.get('currentSlice').set('endTime',this.get('youtubePlayer.currentTime'));
   }),
+  /**
+  * Makes sure that, while a slice is playing, it keeps looping.
+  */
+  _loopSlice: Ember.observer('youtubePlayer.currentTime', function(){
+    if(!this.get('playingSlice')) {
+      return;
+    }
+
+    var endTime = this.get('currentSlice').get('endTime');
+    var startTime = this.get('currentSlice').get('startTime');
+
+    if(this.get('youtubePlayer.currentTime') >= endTime) {
+      this.seekTo(startTime);
+    }
+  }),
   //Computed properties
 
   //Functions
@@ -64,6 +82,7 @@ export default Ember.Component.extend({
         var s = +this.get('startTime');
         var scale = d/l;
         var origin = s/l * 100;
+        //FIXME: Right now the div scales past the origin. We want it to only scale to the right, really...
         return 'transform:scaleX('+scale+');transform-origin:'+origin+'% 0;';
       })
     });
@@ -89,6 +108,11 @@ export default Ember.Component.extend({
     }
     this.set('slicing',!this.get('slicing'));
   },
+  playSlice: function(slice) {
+    this.seekTo(slice.get('startTime'));
+    this.set('currentSlice',slice);
+    this.set('playingSlice', true);
+  },
   /**
   * Verifies that a given end time is before a start time.
   * This is necessary because the user could seek to a different part
@@ -97,11 +121,23 @@ export default Ember.Component.extend({
   isValidDuration: function(startTime,endTime) {
     return +endTime > +startTime;
   },
+  seekTo: function(time) {
+    var player = this.get('youtubePlayer');
+    var ytp = player.get('player');
+    ytp.seekTo(time);
+  },
 
   //Actions
   actions: {
     sliceAction: function(startTime){
       this.slice(startTime, startTime + this.get('defaultSliceLength'));
+    },
+    togglePlaySliceAction: function(slice) {
+      if(this.get('playingSlice') && this.get('currentSlice') === slice) {
+        this.set('playingSlice',false);
+        return;
+      }
+      this.playSlice(slice);
     }
   }
 });

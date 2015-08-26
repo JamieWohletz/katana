@@ -29,10 +29,22 @@ export default Ember.Component.extend({
   videoId: '',
 
   //Observers
+
+  /**
+  * Updates the current slice so it displays in accordance with the playback
+  * of the video.
+  */
   _updateSliceVisual: Ember.observer('youtubePlayer.currentTime', function(){
     if(!this.get('slicing')) {
       return;
     }
+
+    var newEndTime = this.get('youtubePlayer.currentTime');
+    var startTime = this.get('currentSlice').get('startTime');
+    if(!this.isValidDuration(startTime,newEndTime)) {
+      return;
+    }
+
     this.get('currentSlice').set('endTime',this.get('youtubePlayer.currentTime'));
   }),
   //Computed properties
@@ -67,10 +79,23 @@ export default Ember.Component.extend({
       this.get('slices').pushObject(this.get('currentSlice'));
     }
     else {
-      this.get('currentSlice').set('endTime',time);
+      if(this.isValidDuration(
+        this.get('currentSlice').get('startTime'),
+        time
+      )) {
+        this.get('currentSlice').set('endTime',time);
+      }
       this.set('currentSlice',null);
     }
     this.set('slicing',!this.get('slicing'));
+  },
+  /**
+  * Verifies that a given end time is before a start time.
+  * This is necessary because the user could seek to a different part
+  * of the video during slicing and just screw everything up.
+  */
+  isValidDuration: function(startTime,endTime) {
+    return +endTime > +startTime;
   },
 
   //Actions

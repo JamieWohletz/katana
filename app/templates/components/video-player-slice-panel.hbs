@@ -1,11 +1,9 @@
 <div id="video-player-slice-panel">
   {{#each slices as |slice|}}
-    <div class="video-player-slice">
-      <div {{action "expandLeft"}} ></div>
-      <div {{action "move"}} class="video-player-slice-grab no-select" >
-        {{format-number slice.[0]}} - {{format-number slice.[1]}}
+    <div>
+      <div class="video-player-slice" {{action "playSliceAction" slice}}>
+          {{format-number slice.[0]}} - {{format-number slice.[1]}}
       </div>
-      <div {{action "expandRight"}} ></div>
     </div>
   {{/each}}
 </div>

@@ -1,10 +1,16 @@
+<!-- URL input - Displays an input for users to enter a YouTube video -->
 {{video-player-url-input videoId=videoId}}
+<!-- Video player - Displays youtube video player and controls -->
 <div id="video-player">
   <div id="video-player-controls">
     {{youtubePlayer.endSeconds}}
       <button id="video-player-slice-button"
         {{action "sliceAction" youtubePlayer.currentTime}}>
-        {{fa-icon "scissors"}} Slice
+        {{#if slicing}}
+          {{fa-icon "stop"}} Stop Slicing
+        {{else}}
+          {{fa-icon "circle"}} Start Slicing
+        {{/if}}
       </button>
       <br>
       <button>
@@ -29,4 +35,18 @@
     delegate-as="youtubePlayer"
   }}
 </div>
-{{video-player-slice-panel slices=slices}}
+<!-- Slice panel - Displays all video slices  -->
+<div id="video-player-slice-panel">
+  {{#unless slices}}
+    Slices will show up here
+  {{/unless}}
+  {{#each slices as |slice|}}
+    <div class="video-player-slice-wrapper">
+      <div class="video-player-slice" {{action "playSliceAction" slice}}
+        style={{slice.style}}
+      >
+
+      </div>
+    </div>
+  {{/each}}
+</div>

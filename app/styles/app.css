@@ -27,16 +27,27 @@
   margin-right:auto;
   background:black;
   width:640px;
-  padding:10px;
+  color:white;
+  text-align:center;
+}
+.video-player-slice-wrapper {
+  display:block;
+  position:relative;
+  left: 12px;
+  height:10px;
+  width:616px;
+  overflow:hidden;
+  padding:5px 0;
 }
 .video-player-slice {
-  display:inline-block;
+  height:10px;
+  width:100%;
+  position:absolute;
+  left:0;
   color:white;
-  background: #b31217;
+  background: #e52d27;
   border-left:solid 2px white;
   border-right:solid 2px white;
-  padding:2px 4px;
-  margin:2px;
 }
 .video-player-slice-grab {
   cursor:e-resize;

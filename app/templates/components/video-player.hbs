@@ -42,10 +42,10 @@
   {{/unless}}
   {{#each slices as |slice|}}
     <div class="video-player-slice-wrapper">
-      <div class="video-player-slice" {{action "playSliceAction" slice}}
-        style={{slice.style}}
-      >
-
+      <div 
+        {{action "playSliceAction" slice}}
+        class="video-player-slice"
+        style={{slice.style}}>
       </div>
     </div>
   {{/each}}

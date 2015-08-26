@@ -1,9 +1,0 @@
-<div id="video-player-slice-panel">
-  {{#each slices as |slice|}}
-    <div>
-      <div class="video-player-slice" {{action "playSliceAction" slice}}>
-          {{format-number slice.[0]}} - {{format-number slice.[1]}}
-      </div>
-    </div>
-  {{/each}}
-</div>

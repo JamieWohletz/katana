@@ -18,6 +18,11 @@
 #video-player {
   margin-bottom:10px;
 }
+#EmberYoutube-player {
+  border:solid 1px gray;
+  width:640px;
+  height:360px;
+}
 #video-player-slice-panel {
   /*Fix padding overflow*/
   -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
@@ -51,10 +56,6 @@
 }
 .video-player-slice-grab {
   cursor:e-resize;
-}
-#EmberYoutube-player {
-  width:640px;
-  height:360px;
 }
 .no-select {
     -webkit-touch-callout: none;

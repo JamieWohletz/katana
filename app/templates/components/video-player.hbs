@@ -1,8 +1,32 @@
 {{video-player-url-input videoId=videoId}}
 <div id="video-player">
+  <div id="video-player-controls">
+    {{youtubePlayer.endSeconds}}
+      <button id="video-player-slice-button"
+        {{action "sliceAction" youtubePlayer.currentTime}}>
+        {{fa-icon "scissors"}} Slice
+      </button>
+      <br>
+      <button>
+        {{fa-icon "step-backward"}}
+      </button>
+      <button {{action "togglePlay" target=youtubePlayer}}>
+          {{#if youtubePlayer.isPlaying}}
+            {{fa-icon "pause"}}
+          {{else}}
+            {{fa-icon "play"}}
+          {{/if}}
+      </button>
+      <button>
+        {{fa-icon "step-forward"}}
+      </button>
+  </div>
+  {{youtubePlayer.currentTimeFormatted}}
   {{ember-youtube
     ytid=videoId
     playerVars=playerVars
+    delegate=this
+    delegate-as="youtubePlayer"
   }}
 </div>
-{{video-player-clip-controls}}
+{{video-player-slice-panel slices=slices}}

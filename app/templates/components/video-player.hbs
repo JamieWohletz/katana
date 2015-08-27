@@ -1,59 +1,75 @@
-<!-- URL input - Displays an input for users to enter a YouTube video -->
-{{video-player-url-input videoId=videoId}}
-<!-- Video player - Displays youtube video player and controls -->
-<div id="video-player">
-  <div id="video-player-controls">
-    {{youtubePlayer.endSeconds}}
-      <button id="video-player-slice-button"
-        {{action "toggleSliceAction" youtubePlayer.currentTime}}>
-        {{#if slicing}}
-          {{fa-icon "stop"}} Stop Slicing
-        {{else}}
-          {{fa-icon "circle"}} Start Slicing
-        {{/if}}
-      </button>
-      <br>
-      <button>
-        {{fa-icon "step-backward"}}
-      </button>
-      <button {{action "togglePlay" target=youtubePlayer}}>
-          {{#if youtubePlayer.isPlaying}}
-            {{fa-icon "pause"}}
-          {{else}}
-            {{fa-icon "play"}}
-          {{/if}}
-      </button>
-      <button>
-        {{fa-icon "step-forward"}}
-      </button>
+<div class="pure-g">
+  <!-- LEFT COLUMN -->
+  <div class="pure-u-1-5">
+    <div id="project-list-container">
+    </div>
   </div>
-  {{youtubePlayer.currentTimeFormatted}}
-  {{ember-youtube
-    ytid=videoId
-    playerVars=playerVars
-    delegate=this
-    delegate-as="youtubePlayer"
-  }}
-</div>
-<!-- Slice panel - Displays all video slices  -->
-<div id="video-player-slice-panel">
-  {{#unless slices}}
-    Slices will show up here
-  {{/unless}}
-  {{#each slices as |slice|}}
-    <div class="video-player-slice-wrapper">
-      <div
-        {{action "togglePlaySliceAction" slice}}
-        class="video-player-slice
-          {{if (eq slice currentSlice) 'active'}}"
-        style={{slice.style}}>
-        {{#if (and playingSlice (eq slice currentSlice))}}
-        <div id="video-player-slice-progress-indicator"
-          style="left:{{slice.indicatorPositionPercentage}}%"
-        >
-        </div>
-        {{/if}}
+  <!-- CENTER COLUMN -->
+  <div class="pure-u-3-5">
+    <div id="video-player-container">
+      <!-- URL input - Displays an input for users to enter a YouTube video -->
+      {{video-player-url-input videoId=videoId}}
+      <!-- Video player - Displays youtube video player and controls -->
+      <div id="video-player" class="text-center">
+        {{ember-youtube
+          ytid=videoId
+          playerVars=playerVars
+          delegate=this
+          delegate-as="youtubePlayer"
+        }}
+      </div>
+      <div id="video-player-controls" class="text-center center">
+          <button
+            id="video-player-slice-button"
+            class="pure-button {{if slicing 'pure-button-active'}}"
+            {{action "toggleSliceAction" youtubePlayer.currentTime}}
+          >
+            {{fa-icon "circle"}}
+            {{#if slicing}}
+              Finish
+            {{else}}
+              Record
+            {{/if}}
+          </button>
+      </div>
+      <!-- Slice panel - Displays all video slices  -->
+      <div id="video-player-slice-panel" class="center">
+        {{#unless slices}}
+          <strong>Clips will show up here</strong>
+        {{/unless}}
+        {{#each slices as |slice|}}
+          <div class="video-player-slice-wrapper">
+            <div class="video-player-slice-delete-wrapper">
+              <a
+                class="video-player-slice-delete"
+                href="#"
+                {{action "deleteSliceAction" slice}}
+              >
+                {{fa-icon "trash"}}
+              </a>
+            </div>
+            <div
+              {{action "togglePlaySliceAction" slice}}
+              class="video-player-slice
+                {{if (eq slice currentSlice) 'active'}}"
+              style={{slice.style}}>
+              {{#if (and playingSlice (eq slice currentSlice))}}
+              <div
+                id="video-player-slice-progress-indicator"
+                style="left:{{slice.indicatorPositionPercentage}}%"
+              >
+              </div>
+              {{/if}}
+            </div>
+          </div>
+        {{/each}}
       </div>
     </div>
-  {{/each}}
+  </div>
+
+  <!-- RIGHT COLUMN -->
+  <div class="pure-u-1-5">
+
+  </div>
+
 </div>

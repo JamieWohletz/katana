@@ -133,6 +133,14 @@ export default Ember.Component.extend({
     this.set('currentSlice',slice);
     this.set('playingSlice', true);
   },
+  deleteSlice: function(slice) {
+    this.get('slices').removeObject(slice);
+    if(this.get('currentSlice') === slice) {
+      this.set('currentSlice',null);
+      this.set('playingSlice',false);
+      this.set('slicing',false);
+    }
+  },
   /**
   * Verifies that a given end time is before a start time.
   * This is necessary because the user could seek to a different part
@@ -153,11 +161,20 @@ export default Ember.Component.extend({
       if(!startTime) {
         return;
       }
-      if(this.get('playingSlice')) {
+      var
+        currentSlice = this.get('currentSlice'),
+        wasSlicing = this.get('slicing'),
+        wasPlaying = this.get('playingSlice');
+
+      if(wasPlaying) {
         this.set('playingSlice',false);
         this.set('currentSlice',null);
       }
       this.slice(startTime, startTime + this.get('defaultSliceLength'));
+
+      if(wasSlicing) {
+        this.playSlice(currentSlice);
+      }
     },
     togglePlaySliceAction: function(slice) {
       //stop slicing before we start playing another slice
@@ -172,6 +189,9 @@ export default Ember.Component.extend({
         return;
       }
       this.playSlice(slice);
+    },
+    deleteSliceAction: function(slice) {
+      this.deleteSlice(slice);
     }
   }
 });

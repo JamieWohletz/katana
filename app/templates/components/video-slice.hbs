@@ -1,15 +1,26 @@
-{{#unless hide}}
-<div
-  {{action "play" slice}}
-  class="video-player-slice
-    {{if (eq slice currentSlice) 'active'}}"
-  style={{style}}>
-  {{#if active}}
-    <div
-      id="video-player-slice-progress-indicator"
-      style={{indicatorPositionPercentage}}
-    >
+<div class="video-player-slice-parent">
+  <div class="video-player-slice-wrapper">
+    <div class="video-player-slice-delete-wrapper">
+      <a
+        class="video-player-slice-delete"
+        href="#"
+        {{action "delete" slice}}
+      >
+        {{fa-icon "trash"}}
+      </a>
     </div>
-  {{/if}}
+    <div
+      {{action "play" slice}}
+      class="video-player-slice
+        {{if (eq slice currentSlice) 'active'}}"
+      style={{style}}>
+      {{#if active}}
+        <div
+          id="video-player-slice-progress-indicator"
+          style={{indicatorPositionPercentage}}
+        >
+        </div>
+      {{/if}}
+    </div>
+  </div>
 </div>
-{{/unless}}

@@ -38,18 +38,27 @@
   height:360px;
 }
 #video-player-slice-panel {
+  outline:solid 1px lightgray;
   /*Fix padding overflow*/
   -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;    /* Firefox, other Gecko */
   box-sizing: border-box;         /* Opera/IE 8+ */
-  background:black;
   width:640px;
   color:white;
   text-align:center;
 }
+.video-player-slice-parent {
+  border-bottom:solid 1px lightgray;
+}
+.video-player-slice-parent:last-child {
+  border-bottom:none;
+}
 .video-player-slice-wrapper {
   display:block;
   position:relative;
+  /*border-right:solid 1px lightgray;
+  border-left:solid 1px lightgray;
+  border-bottom:solid 1px lightgray;*/
   left: 12px;
   height:20px;
   width:616px;
@@ -61,6 +70,7 @@
 }
 .video-player-slice-delete {
   font-weight:bold;
+  color:lightgray;
 }
 .video-player-slice {
   cursor:pointer;

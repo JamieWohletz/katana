@@ -147,6 +147,10 @@ export default Ember.Component.extend({
   },
 
   //Actions
+
+  //NOTE: All data saving takes place in these actions and nowhere else.
+  //All the data gets saved every time a slice is finished, and again any
+  //time a slice is delete. That's it. 
   actions: {
     toggleSliceAction: function(time){
       if(!time) {
@@ -157,7 +161,6 @@ export default Ember.Component.extend({
       if(this.mode === this.SLICING) {
         this.finishSlice(slice, time);
         this.playSlice(slice);
-        //THIS IS THE ONLY TIME WE SAVE THINGS BACK TO LOCALFORAGE
         this.get('storage').saveAll();
       } else {
         this.setMode(this.SLICING);
@@ -176,6 +179,7 @@ export default Ember.Component.extend({
         this.setMode(this.NORMAL);
       }
       this.deleteSlice(slice);
+      this.get('storage').saveAll();
     }
   }
 });

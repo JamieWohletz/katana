@@ -21,7 +21,7 @@
       <div id="video-player-controls" class="text-center center">
           <button
             id="video-player-slice-button"
-            class="pure-button {{if (eq mode SLICING) 'pure-button-active'}}"
+            class="pure-button {{if (eq mode SLICING) 'pure-button-active red-button'}}"
             {{action "toggleSliceAction" youtubePlayer.currentTime}}
           >
             {{fa-icon "circle"}}
@@ -38,23 +38,14 @@
           <strong>Clips will show up here</strong>
         {{/unless}}
         {{#each project.slices as |slice|}}
-          <div class="video-player-slice-wrapper">
-            <div class="video-player-slice-delete-wrapper">
-              <a
-                class="video-player-slice-delete"
-                href="#"
-                {{action "deleteSliceAction" slice}}
-              >
-                {{fa-icon "trash"}}
-              </a>
-            </div>
-            {{video-slice
-              videoLength=project.videoLength
-              slice=slice
-              currentSlice=currentSlice
-              currentTime=youtubePlayer.currentTime
-              play="togglePlaySliceAction"}}
-          </div>
+          {{video-slice
+            videoLength=project.videoLength
+            slice=slice
+            currentSlice=currentSlice
+            currentTime=youtubePlayer.currentTime
+            play="togglePlaySliceAction"
+            delete="deleteSliceAction"
+          }}
         {{/each}}
       </div>
     </div>

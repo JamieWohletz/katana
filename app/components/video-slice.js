@@ -1,11 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  //determines whether we should show the element yet
-  //this is important because when a video is first loaded,
-  //we can't get the duration of the video so we can't accurately compute
-  //styles
-  hide: false,
+  tagName:'',
   videoLength: 0,
   active: Ember.computed('currentSlice',function(){
     return this.get('slice') === this.get('currentSlice');
@@ -29,6 +25,9 @@ export default Ember.Component.extend({
   actions: {
     play: function(slice) {
       this.sendAction('play',slice);
+    },
+    delete: function(slice) {
+      this.sendAction('delete',slice);
     }
   }
 });

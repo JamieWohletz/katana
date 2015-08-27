@@ -60,7 +60,8 @@ export default Ember.Component.extend({
     }
 
     var currentSlice = this.get('currentSlice');
-    var time = +this.get('youtubePlayer.currentTime');
+    var startTime = +currentSlice.get('startTime');
+    var time = +this.get('youtubePlayer.currentTime') - startTime;
     var duration = +currentSlice.get('duration');
     currentSlice.set('indicatorPositionPercentage', (time/duration)*100);
   }),
@@ -79,9 +80,11 @@ export default Ember.Component.extend({
       this._seekTo(startTime);
     }
   }),
+
   //Computed properties
 
   //Functions
+
   makeSliceObject: function(startTime,endTime){
 
     var Slice = Ember.Object.extend({
@@ -141,12 +144,19 @@ export default Ember.Component.extend({
   _seekTo: function(time) {
     var player = this.get('youtubePlayer');
     var ytp = player.get('player');
-    ytp._seekTo(time);
+    ytp.seekTo(time);
   },
 
   //Actions
   actions: {
-    sliceAction: function(startTime){
+    toggleSliceAction: function(startTime){
+      if(!startTime) {
+        return;
+      }
+      if(this.get('playingSlice')) {
+        this.set('playingSlice',false);
+        this.set('currentSlice',null);
+      }
       this.slice(startTime, startTime + this.get('defaultSliceLength'));
     },
     togglePlaySliceAction: function(slice) {

@@ -5,7 +5,7 @@
   <div id="video-player-controls">
     {{youtubePlayer.endSeconds}}
       <button id="video-player-slice-button"
-        {{action "sliceAction" youtubePlayer.currentTime}}>
+        {{action "toggleSliceAction" youtubePlayer.currentTime}}>
         {{#if slicing}}
           {{fa-icon "stop"}} Stop Slicing
         {{else}}

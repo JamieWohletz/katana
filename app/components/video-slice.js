@@ -1,20 +1,30 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  //determines whether we should show the element yet
+  //this is important because when a video is first loaded,
+  //we can't get the duration of the video so we can't accurately compute
+  //styles
+  hide: false,
   videoLength: 0,
-  indicatorPositionPercentage: Ember.computed('currentTime','slice.startTime','duration', function(){
-    return ((this.get('currentTime')-this.get('slice.startTime'))/this.get('duration'))*100;
+  active: Ember.computed('currentSlice',function(){
+    return this.get('slice') === this.get('currentSlice');
   }),
-  duration: Ember.computed('slice.startTime','slice.endTime', function(){
+  indicatorPositionPercentage: Ember.computed('currentTime','slice.startTime','duration', function(){
+    var left = ((this.get('currentTime') - this.get('slice.startTime')) / this.get('duration'))*100;
+    return new Ember.Handlebars.SafeString('left:'+left+'%;'
+    );
+  }),
+  duration: Ember.computed('slice', 'slice.startTime','slice.endTime', function(){
     return +this.get('slice.endTime') - (+this.get('slice.startTime'));
   }),
-  style: Ember.computed('duration', function(){
+  style: Ember.computed('duration','videoLength', function(){
     var d = +this.get('duration');
     var l = +this.get('videoLength');
     var s = +this.get('slice.startTime');
     var width = (d/l * 100).toFixed(2);
     var origin = s/l * 100;
-    return 'left:'+origin+'%;width:'+width+'%;';
+    return new Ember.Handlebars.SafeString('left:'+origin+'%;width:'+width+'%;');
   }),
   actions: {
     play: function(slice) {

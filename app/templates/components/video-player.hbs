@@ -8,7 +8,7 @@
   <div class="pure-u-3-5">
     <div id="video-player-container">
       <!-- URL input - Displays an input for users to enter a YouTube video -->
-      {{video-player-url-input videoId=videoId}}
+      {{video-player-url-input videoId=videoId project=project}}
       <!-- Video player - Displays youtube video player and controls -->
       <div id="video-player" class="text-center">
         {{ember-youtube
@@ -34,10 +34,10 @@
       </div>
       <!-- Slice panel - Displays all video slices  -->
       <div id="video-player-slice-panel" class="center">
-        {{#unless slices}}
+        {{#unless project.slices}}
           <strong>Clips will show up here</strong>
         {{/unless}}
-        {{#each slices as |slice|}}
+        {{#each project.slices as |slice|}}
           <div class="video-player-slice-wrapper">
             <div class="video-player-slice-delete-wrapper">
               <a
@@ -49,7 +49,7 @@
               </a>
             </div>
             {{video-slice
-              videoLength=videoLength
+              videoLength=project.videoLength
               slice=slice
               currentSlice=currentSlice
               currentTime=youtubePlayer.currentTime

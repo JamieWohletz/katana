@@ -8,7 +8,7 @@ export default Ember.Component.extend({
   setVideoIdFromUrl: function(url){
     var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     var match = url.match(regExp);
-    if (match && match[2].length == 11) {
+    if (match && match[2].length === 11) {
       this.set('videoId',match[2]);
     }
   }

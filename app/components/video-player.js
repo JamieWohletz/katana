@@ -1,19 +1,29 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  //We need the store so we can doooo things.
+  store: Ember.inject.service(),
   // Player width in pixels
   // Sadly, right now, everything in the CSS is based off a hardcoded 640 so
   // if you change this, very strange things will happen.
   playerWidth: 640,
-  // Array containing all known slices
+  // Array containing all known slices. This will typically get overwritten
+  // from the outside
   slices: [],
-  // Are we currently creating a new slice?
-  slicing: false,
-  // Are we playing (read: looping over) a slice?
-  playingSlice: false,
+  // There are three modes we care about
+  // Creating a new video slice
+  SLICING: 0,
+  // Playing and looping over an existing video slice
+  REPEATING: 1,
+  // Playing the YouTube video like normal
+  NORMAL: 2,
+  //By default, we're just playing the video
+  mode: 2,
   // If we're slicing, this becomes the slice we're working with
   // It's also used to track the currently-playing slice
   currentSlice: null,
+  // Current video ID
+  videoId: '',
   // Variables for the youtube player component
   playerVars: {
     autoplay: 0,
@@ -28,8 +38,11 @@ export default Ember.Component.extend({
     // iv_load_policy: 3,
     modestbranding: 0
   },
-  // Current video ID
-  videoId: '',
+
+  //Computed Properties
+  videoLength: Ember.computed('youtubePlayer.duration',function(){
+    return this.get('youtubePlayer.duration');
+  }),
 
   //Observers
 
@@ -38,7 +51,7 @@ export default Ember.Component.extend({
   * of the video.
   */
   _updateSlicingVisual: Ember.observer('youtubePlayer.currentTime', function(){
-    if(!this.get('slicing')) {
+    if(this.mode !== this.SLICING) {
       return;
     }
 
@@ -55,7 +68,7 @@ export default Ember.Component.extend({
   * a slice when it's being played.
   */
   _updateSliceProgressIndicator: Ember.observer('youtubePlayer.currentTime', function(){
-    if(!this.get('playingSlice')) {
+    if(this.mode !== this.REPEATING) {
       return;
     }
 
@@ -69,7 +82,7 @@ export default Ember.Component.extend({
   * Makes sure that, while a slice is playing, it keeps looping.
   */
   _loopSlice: Ember.observer('youtubePlayer.currentTime', function(){
-    if(!this.get('playingSlice')) {
+    if(this.mode !== this.REPEATING) {
       return;
     }
 
@@ -85,61 +98,37 @@ export default Ember.Component.extend({
 
   //Functions
 
-  makeSliceObject: function(startTime,endTime){
+  startSlice: function(startTime){
+    this.setMode(this.SLICING);
 
-    var Slice = Ember.Object.extend({
-      startTime: null,
-      endTime: null,
-      videoLength: null,
-      indicatorPositionPercentage: null,
-      duration: Ember.computed('startTime','endTime', function(){
-        return +this.get('endTime') - (+this.get('startTime'));
-      }),
-      style: Ember.computed('duration', function(){
-        var d = +this.get('duration');
-        var l = +this.get('videoLength');
-        var s = +this.get('startTime');
-        var width = (d/l * 100).toFixed(2);
-        var origin = s/l * 100;
-        return 'left:'+origin+'%;width:'+width+'%;';
-      })
-    });
-
-    return Slice.create({
+    var newSlice = this.get('store').createRecord('slice',{
       startTime: startTime,
-      endTime: endTime || startTime,
-      videoLength: this.get('youtubePlayer.duration')
+      endTime: startTime
     });
-
+    this.set('currentSlice',newSlice);
   },
-  slice: function(time){
-    if(!this.get('slicing')) {
-      this.set('currentSlice',this.makeSliceObject(time));
-      this.get('slices').pushObject(this.get('currentSlice'));
+  finishSlice: function(slice, endTime) {
+    //make sure that the end time is before the start time
+    //if it isn't then we just leave the end time at whatever it is
+    if(this._isValidDuration(slice.get('startTime'),endTime)) {
+      this.get('currentSlice').set('endTime',endTime);
+      this.get('currentSlice').save();
     }
-    else {
-      if(this._isValidDuration(
-        this.get('currentSlice').get('startTime'),
-        time
-      )) {
-        this.get('currentSlice').set('endTime',time);
-      }
-      this.set('currentSlice',null);
-    }
-    this.set('slicing',!this.get('slicing'));
+    this.setMode(this.NORMAL);
   },
   playSlice: function(slice) {
     this._seekTo(slice.get('startTime'));
     this.set('currentSlice',slice);
-    this.set('playingSlice', true);
+    this.setMode(this.REPEATING);
   },
   deleteSlice: function(slice) {
-    this.get('slices').removeObject(slice);
-    if(this.get('currentSlice') === slice) {
+    this.get('store').deleteRecord(slice);
+  },
+  setMode: function(mode) {
+    if(mode === this.NORMAL) {
       this.set('currentSlice',null);
-      this.set('playingSlice',false);
-      this.set('slicing',false);
     }
+    this.set('mode',mode);
   },
   /**
   * Verifies that a given end time is before a start time.
@@ -157,40 +146,32 @@ export default Ember.Component.extend({
 
   //Actions
   actions: {
-    toggleSliceAction: function(startTime){
-      if(!startTime) {
+    toggleSliceAction: function(time){
+      if(!time) {
         return;
       }
-      var
-        currentSlice = this.get('currentSlice'),
-        wasSlicing = this.get('slicing'),
-        wasPlaying = this.get('playingSlice');
 
-      if(wasPlaying) {
-        this.set('playingSlice',false);
-        this.set('currentSlice',null);
+      var slice = this.get('currentSlice');
+      if(this.mode === this.SLICING) {
+        this.finishSlice(slice, time);
+        this.playSlice(slice);
+      } else {
+        this.setMode(this.SLICING);
+        this.startSlice(time);
       }
-      this.slice(startTime, startTime + this.get('defaultSliceLength'));
 
-      if(wasSlicing) {
-        this.playSlice(currentSlice);
-      }
     },
     togglePlaySliceAction: function(slice) {
-      //stop slicing before we start playing another slice
-      if(this.get('slicing')) {
-        this.set('slicing', false);
-        this.set('currentSlice',null);
-      }
-
-      if(this.get('playingSlice') && this.get('currentSlice') === slice) {
-        this.set('currentSlice',null);
-        this.set('playingSlice',false);
+      if(this.mode === this.REPEATING && this.get('currentSlice') === slice) {
+        this.setMode(this.NORMAL);
         return;
       }
       this.playSlice(slice);
     },
     deleteSliceAction: function(slice) {
+      if(this.get('currentSlice') === slice) {
+        this.setMode(this.NORMAL);
+      }
       this.deleteSlice(slice);
     }
   }

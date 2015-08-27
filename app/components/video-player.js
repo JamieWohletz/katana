@@ -37,18 +37,32 @@ export default Ember.Component.extend({
   * Updates the current slice so it displays in accordance with the playback
   * of the video.
   */
-  _updateSliceVisual: Ember.observer('youtubePlayer.currentTime', function(){
+  _updateSlicingVisual: Ember.observer('youtubePlayer.currentTime', function(){
     if(!this.get('slicing')) {
       return;
     }
 
     var newEndTime = this.get('youtubePlayer.currentTime');
     var startTime = this.get('currentSlice').get('startTime');
-    if(!this.isValidDuration(startTime,newEndTime)) {
+    if(!this._isValidDuration(startTime,newEndTime)) {
       return;
     }
 
     this.get('currentSlice').set('endTime',this.get('youtubePlayer.currentTime'));
+  }),
+  /**
+  * Updates the little vertical line indicator that shows progress through
+  * a slice when it's being played.
+  */
+  _updateSliceProgressIndicator: Ember.observer('youtubePlayer.currentTime', function(){
+    if(!this.get('playingSlice')) {
+      return;
+    }
+
+    var currentSlice = this.get('currentSlice');
+    var time = +this.get('youtubePlayer.currentTime');
+    var duration = +currentSlice.get('duration');
+    currentSlice.set('indicatorPositionPercentage', (time/duration)*100);
   }),
   /**
   * Makes sure that, while a slice is playing, it keeps looping.
@@ -62,17 +76,19 @@ export default Ember.Component.extend({
     var startTime = this.get('currentSlice').get('startTime');
 
     if(this.get('youtubePlayer.currentTime') >= endTime) {
-      this.seekTo(startTime);
+      this._seekTo(startTime);
     }
   }),
   //Computed properties
 
   //Functions
   makeSliceObject: function(startTime,endTime){
+
     var Slice = Ember.Object.extend({
       startTime: null,
       endTime: null,
       videoLength: null,
+      indicatorPositionPercentage: null,
       duration: Ember.computed('startTime','endTime', function(){
         return +this.get('endTime') - (+this.get('startTime'));
       }),
@@ -80,17 +96,18 @@ export default Ember.Component.extend({
         var d = +this.get('duration');
         var l = +this.get('videoLength');
         var s = +this.get('startTime');
-        var scale = d/l;
+        var width = (d/l * 100).toFixed(2);
         var origin = s/l * 100;
-        //FIXME: Right now the div scales past the origin. We want it to only scale to the right, really...
-        return 'transform:scaleX('+scale+');transform-origin:'+origin+'% 0;';
+        return 'left:'+origin+'%;width:'+width+'%;';
       })
     });
+
     return Slice.create({
       startTime: startTime,
       endTime: endTime || startTime,
       videoLength: this.get('youtubePlayer.duration')
     });
+
   },
   slice: function(time){
     if(!this.get('slicing')) {
@@ -98,7 +115,7 @@ export default Ember.Component.extend({
       this.get('slices').pushObject(this.get('currentSlice'));
     }
     else {
-      if(this.isValidDuration(
+      if(this._isValidDuration(
         this.get('currentSlice').get('startTime'),
         time
       )) {
@@ -109,7 +126,7 @@ export default Ember.Component.extend({
     this.set('slicing',!this.get('slicing'));
   },
   playSlice: function(slice) {
-    this.seekTo(slice.get('startTime'));
+    this._seekTo(slice.get('startTime'));
     this.set('currentSlice',slice);
     this.set('playingSlice', true);
   },
@@ -118,13 +135,13 @@ export default Ember.Component.extend({
   * This is necessary because the user could seek to a different part
   * of the video during slicing and just screw everything up.
   */
-  isValidDuration: function(startTime,endTime) {
+  _isValidDuration: function(startTime,endTime) {
     return +endTime > +startTime;
   },
-  seekTo: function(time) {
+  _seekTo: function(time) {
     var player = this.get('youtubePlayer');
     var ytp = player.get('player');
-    ytp.seekTo(time);
+    ytp._seekTo(time);
   },
 
   //Actions
@@ -133,7 +150,14 @@ export default Ember.Component.extend({
       this.slice(startTime, startTime + this.get('defaultSliceLength'));
     },
     togglePlaySliceAction: function(slice) {
+      //stop slicing before we start playing another slice
+      if(this.get('slicing')) {
+        this.set('slicing', false);
+        this.set('currentSlice',null);
+      }
+
       if(this.get('playingSlice') && this.get('currentSlice') === slice) {
+        this.set('currentSlice',null);
         this.set('playingSlice',false);
         return;
       }

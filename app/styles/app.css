@@ -66,7 +66,7 @@
 }
 .video-player-slice-delete-wrapper {
   position:absolute;
-  left:-30px;
+  left:-50px;
 }
 .video-player-slice-delete {
   font-weight:bold;
@@ -83,6 +83,18 @@
 }
 .video-player-slice.active {
   background: #f12b24;
+}
+.video-player-slice-size-adjuster {
+  position:absolute;
+  color:lightgray;
+  font-weight:normal;
+  text-decoration:none; 
+}
+.video-player-slice-size-adjuster.left {
+  left:-30px;
+}
+.video-player-slice-size-adjuster.right {
+  right:-30px;
 }
 #video-player-slice-progress-indicator {
   height: 100%;

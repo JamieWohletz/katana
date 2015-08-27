@@ -41,7 +41,7 @@ export default Ember.Component.extend({
 
   _saveVideoLength: Ember.observer('youtubePlayer.durationValue','project',function(){
     var project = this.get('project');
-    var vidLength = Ember.get(project, 'videoLength') || this.get('youtubePlayer.durationValue');
+    var vidLength = Ember.get((project || {}), 'videoLength') || this.get('youtubePlayer.durationValue');
     if(!project) {
       return;
     }
@@ -150,7 +150,7 @@ export default Ember.Component.extend({
 
   //NOTE: All data saving takes place in these actions and nowhere else.
   //All the data gets saved every time a slice is finished, and again any
-  //time a slice is delete. That's it. 
+  //time a slice is delete. That's it.
   actions: {
     toggleSliceAction: function(time){
       if(!time) {

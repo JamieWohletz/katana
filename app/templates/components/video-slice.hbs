@@ -1,6 +1,6 @@
 <div class="video-player-slice-parent">
   <div class="video-player-slice-wrapper">
-    <div class="video-player-slice-delete-wrapper">
+    <div class="video-player-slice-controls left">
       <a
         class="video-player-slice-delete"
         href="#"
@@ -8,8 +8,19 @@
       >
         {{fa-icon "trash"}}
       </a>
+      {{video-slice-adjuster
+        direction="left"
+        action="changePosition"
+        icon="fa-arrow-left"
+        title=adjustPositionTitle
+      }}
+      {{video-slice-adjuster
+        direction="left"
+        action="changeSize"
+        icon="fa-minus"
+        title=adjustSizeTitle
+      }}
     </div>
-    {{video-slice-size-adjuster direction="left" changeSize="changeSize"}}
     <div
       {{action "play" slice}}
       class="video-player-slice
@@ -23,6 +34,19 @@
         </div>
       {{/if}}
     </div>
-    {{video-slice-size-adjuster direction="right" changeSize="changeSize"}}
+    <div class="video-player-slice-controls right">
+      {{video-slice-adjuster
+        direction="right"
+        action="changeSize"
+        icon="fa-plus"
+        title=adjustSizeTitle
+      }}
+      {{video-slice-adjuster
+        direction="right"
+        action="changePosition"
+        icon="fa-arrow-right"
+        title=adjustPositionTitle
+      }}
+    </div>
   </div>
 </div>

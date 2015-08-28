@@ -3,7 +3,17 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   tagName:'',
   videoLength: 0,
-  EXPANSION_INCREMENT: 1,
+  //How much should we adjust a slice's size/position by?
+  INCREMENT: 1,
+  //How short can a slice be in seconds?
+  MINIMUM_SLICE_SIZE: 2,
+  //This determines which side of the slice should stay still while
+  //the clip is being modified
+  expandFromLeft:true,
+
+  adjustSizeTitle: 'Click and hold to adjust clip length.',
+  adjustPositionTitle: 'Click and hold to adjust clip position.',
+
   active: Ember.computed('currentSlice',function(){
     return this.get('slice') === this.get('currentSlice');
   }),
@@ -30,16 +40,42 @@ export default Ember.Component.extend({
     delete: function(slice) {
       this.sendAction('delete',slice);
     },
-    changeSize: function(direction) {
-      console.log('changeSize top level');
-      //FIXME: bug here that causes things to act weird
+    changePosition: function(direction) {
       var slice = this.get('slice');
       var startTime = Ember.get(slice,'startTime');
       var endTime = Ember.get(slice,'endTime');
-      endTime += direction === 'left'? -this.EXPANSION_INCREMENT : this.EXPANSION_INCREMENT;
+      var duration = this.get('duration');
+      if(direction === 'left') {
+        var newStartTime = Math.max(0,startTime-this.INCREMENT);
+        Ember.setProperties(slice, {
+          startTime: newStartTime,
+          endTime: duration + newStartTime
+        });
+      } else {
+        var newEndTime = Math.min(this.videoLength, endTime + this.INCREMENT);
+        Ember.setProperties(slice, {
+          endTime: newEndTime,
+          startTime: newEndTime - duration
+        });
+      }
+    },
+    changeSize: function(direction) {
+      var slice = this.get('slice');
+      var startTime = Ember.get(slice,'startTime');
+      var endTime = Ember.get(slice,'endTime');
+      var leftIsStationary = this.get('expandFromLeft');
+      if(leftIsStationary) {
+        endTime += direction === 'left'? -this.INCREMENT : this.INCREMENT;
+      }
+      else {
+        startTime += direction === 'left'? -this.INCREMENT : this.INCREMENT;
+      }
+      if((endTime - startTime) < this.MINIMUM_SLICE_SIZE) {
+        this.set('expandFromLeft',!leftIsStationary);
+      }
       Ember.setProperties(slice, {
-        startTime:Math.min(endTime,startTime),
-        endTime:Math.max(endTime,startTime)
+        startTime:startTime,
+        endTime:endTime
       });
     }
   }

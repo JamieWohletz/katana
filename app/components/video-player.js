@@ -29,8 +29,8 @@ export default Ember.Component.extend({
     enablejsapi: 1,
     rel: 0, // disable related videos
     showinfo: 0,
-    autohide: 1,
     fs: 1,
+    autohide:0,
     playsinline: 1,
     modestbranding: 0
   },

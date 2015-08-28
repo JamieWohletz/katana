@@ -38,7 +38,6 @@
   -moz-box-sizing: border-box;    /* Firefox, other Gecko */
   box-sizing: border-box;         /* Opera/IE 8+ */
   width:640px;
-  color:white;
   text-align:center;
 }
 .video-player-slice-parent {

@@ -35,7 +35,7 @@
       <!-- Slice panel - Displays all video slices  -->
       <div id="video-player-slice-panel" class="center">
         {{#unless project.slices}}
-          <strong>Clips will show up here</strong>
+          <p>Video clips will show up here.</p>
         {{/unless}}
         {{#each project.slices as |slice|}}
           {{video-slice

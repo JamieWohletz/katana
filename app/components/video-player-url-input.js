@@ -2,20 +2,27 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   storage: Ember.inject.service(),
-  videoId: '',
   project: null,
 
-  _autoSetVideoId: Ember.observer('videoUrl', function(){
-    this.setVideoIdFromUrl(this.get('videoUrl') || '');
+  videoId: Ember.computed('videoUrl', {
+    get(key) {
+      return this.extractVideoIdFromUrl(this.get('videoUrl') || '');
+    },
+    set(key, value) {
+      return value;
+    }
   }),
-  _autoMakeProject: Ember.observer('videoId', function(){
+
+  _autoSetupProject: Ember.observer('videoId', function(){
     var videoId = this.get('videoId');
+    var storage = this.get('storage');
+    var self = this;
+    
     if(!videoId) {
+      self.set('project',null);
       return;
     }
 
-    var storage = this.get('storage');
-    var self = this;
     storage.loadAll(function(){
       var record = storage.findProjectBy('videoId',videoId);
       if(!record) {
@@ -29,11 +36,12 @@ export default Ember.Component.extend({
     });
   }),
 
-  setVideoIdFromUrl: function(url){
+  extractVideoIdFromUrl: function(url){
     var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     var match = url.match(regExp);
     if (match && match[2].length === 11) {
-      this.set('videoId',match[2]);
+      return match[2];
     }
+    return null;
   },
 });

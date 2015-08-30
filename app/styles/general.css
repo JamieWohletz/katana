@@ -13,6 +13,7 @@
 .red-button {
   color:white;
   background: #f12b24;
+  border: solid 1px #ac211c !important;
 }
 .text-center {
   text-align:center;

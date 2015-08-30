@@ -2,25 +2,26 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   storage: Ember.inject.service(),
+  intervalId: '',
+
   tagName:'a',
   attributeBindings: ['href','title'],
   href:'#',
-  title: 'Click and hold to change clip\'s length',
+  title: 'Click and hold to adjust the clip.',
   direction: '',
-  classNames:['video-player-slice-size-adjuster','fa'],
-  classNameBindings: ['direction','icon'],
-  intervalId: '',
+  classNames:['video-player-slice-adjuster','fa'],
+  classNameBindings: ['icon'],
   icon: Ember.computed('direction', function(){
-    return this.get('direction') === 'left' ? 'fa-backward' : 'fa-forward';
+    return this.get('direction') === 'left' ? this.get('leftIcon') : this.get('rightIcon');
   }),
+
   mouseDown(event) {
-    console.log('pressed!');
     this.set('pressed',true);
   },
   mouseUp(event) {
-    console.log('released!');
     this.set('pressed',false);
   },
+
   _reactToInteraction: Ember.observer('pressed', function(){
     var self = this;
     if(!this.get('pressed')) {
@@ -30,7 +31,7 @@ export default Ember.Component.extend({
       return;
     }
     this.set('intervalId',window.setInterval(function(){
-      self.sendAction('changeSize',self.get('direction'));
+      self.sendAction('action',self.get('direction'));
     },100));
   })
 });

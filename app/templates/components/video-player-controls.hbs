@@ -1,0 +1,32 @@
+<div id="video-player-controls" class="text-center center">
+    <!-- CLIP BUTTON -->
+    <button
+      id="video-player-slice-button"
+      class="pure-button {{if slicing 'pure-button-active red-button'}}"
+      {{action "slice" videoCurrentTime}}
+    >
+      {{fa-icon "circle"}}
+      {{#if slicing}}
+        Stop Clipping
+      {{else}}
+        Clip
+      {{/if}}
+    </button>
+
+    <!-- CLIP (slice) PANEL -->
+    <div id="video-player-slice-panel" class="center">
+      {{#unless project.slices}}
+        <p>Video clips will show up here.</p>
+      {{/unless}}
+      {{#each project.slices as |slice|}}
+        {{video-slice
+          videoLength=project.videoLength
+          activeSlice=project.activeSlice
+          slice=slice
+          currentTime=videoCurrentTime
+          toggleActive="updateActiveSlice"
+          delete="deleteSliceAction"
+        }}
+      {{/each}}
+    </div>
+</div>

@@ -1,59 +1,8 @@
-<div class="pure-g">
-  <!-- LEFT COLUMN -->
-  <div class="pure-u-1-5">
-    <div id="project-list-container">
-    </div>
-  </div>
-  <!-- CENTER COLUMN -->
-  <div class="pure-u-3-5">
-    <div id="video-player-container">
-      <!-- URL input - Displays an input for users to enter a YouTube video -->
-      {{video-player-url-input videoId=videoId project=project}}
-      <!-- Video player - Displays youtube video player and controls -->
-      <div id="video-player" class="text-center">
-        {{ember-youtube
-          ytid=videoId
-          playerVars=playerVars
-          delegate=this
-          delegate-as="youtubePlayer"
-        }}
-      </div>
-      <div id="video-player-controls" class="text-center center">
-          <button
-            id="video-player-slice-button"
-            class="pure-button {{if (eq mode SLICING) 'pure-button-active red-button'}}"
-            {{action "toggleSliceAction" youtubePlayer.currentTime}}
-          >
-            {{fa-icon "circle"}}
-            {{#if (eq mode SLICING)}}
-              Finish
-            {{else}}
-              Record
-            {{/if}}
-          </button>
-      </div>
-      <!-- Slice panel - Displays all video slices  -->
-      <div id="video-player-slice-panel" class="center">
-        {{#unless project.slices}}
-          <p>Video clips will show up here.</p>
-        {{/unless}}
-        {{#each project.slices as |slice|}}
-          {{video-slice
-            videoLength=project.videoLength
-            slice=slice
-            currentSlice=currentSlice
-            currentTime=youtubePlayer.currentTime
-            play="togglePlaySliceAction"
-            delete="deleteSliceAction"
-          }}
-        {{/each}}
-      </div>
-    </div>
-  </div>
-
-  <!-- RIGHT COLUMN -->
-  <div class="pure-u-1-5">
-
-  </div>
-
+<div id="video-player" class="text-center">
+  {{ember-youtube
+    ytid=project.videoId
+    playerVars=playerVars
+    delegate=this
+    delegate-as="youtubePlayer"
+  }}
 </div>

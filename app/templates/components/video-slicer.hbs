@@ -1,0 +1,17 @@
+<div id="video-slicer">
+  <!-- VIDEO INPUT -->
+  {{video-player-url-input
+    projects=projects
+    action="updateVideoInformation"}}
+  <!-- VIDEO PLAYER -->
+  {{video-player
+    project=activeProject
+    currentTime=videoPlayerCurrentTime
+  }}
+  <!-- SLICING CONTROLS -->
+  {{video-player-controls
+    project=activeProject
+    videoCurrentTime=videoPlayerCurrentTime
+    slice="createAndActivateSlice"
+  }}
+</div>

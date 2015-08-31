@@ -8,23 +8,11 @@
       >
         {{fa-icon "trash"}}
       </a>
-      {{video-slice-adjuster
-        direction="left"
-        action="changePosition"
-        icon="fa-arrow-left"
-        title=adjustPositionTitle
-      }}
-      {{video-slice-adjuster
-        direction="left"
-        action="changeSize"
-        icon="fa-minus"
-        title=adjustSizeTitle
-      }}
     </div>
     <div
-      {{action "play" slice}}
+      {{action "toggleActive" slice}}
       class="video-player-slice
-        {{if (eq slice currentSlice) 'active'}}"
+        {{if active 'active'}}"
       style={{style}}
       title="Click to start/stop playing this clip on repeat."
       >
@@ -35,20 +23,6 @@
         >
         </div>
       {{/if}}
-    </div>
-    <div class="video-player-slice-controls right">
-      {{video-slice-adjuster
-        direction="right"
-        action="changeSize"
-        icon="fa-plus"
-        title=adjustSizeTitle
-      }}
-      {{video-slice-adjuster
-        direction="right"
-        action="changePosition"
-        icon="fa-arrow-right"
-        title=adjustPositionTitle
-      }}
     </div>
   </div>
 </div>

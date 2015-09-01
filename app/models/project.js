@@ -12,8 +12,8 @@ export default DS.Model.extend(DebounceMixin, {
   slices: DS.hasMany('slice', {async:true}),
 
   //Make sure that we automatically save our project when it's
-  //updated... but only every second.
+  //updated... but not too often.
   _autoSave: Ember.observer('updatedAt', function(){
-    this.debounce(this, this.save, 1000)();
+    this.debounce(this, this.save, 250)();
   })
 });

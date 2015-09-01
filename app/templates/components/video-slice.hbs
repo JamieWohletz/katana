@@ -11,23 +11,22 @@
     </div>
     <!-- This is the slice itself -->
     <div
-      {{action "toggleActive" slice}}
       class="video-player-slice
         {{if active 'active'}}"
       style={{style}}
       title="Click to start/stop playing this clip on repeat."
       >
-      <div class="video-player-slice-adjuster left" title="Click & drag to adjust size.">
-      </div>
-      {{#if active}}
-        <div
-          id="video-player-slice-progress-indicator"
-          style={{indicatorPositionPercentage}}
-        >
+      {{slice-adjuster side="left" updateSize="adjustSize" saveSlice="save" mouseX=mouseAbsoluteX}}
+        <div {{action "toggleActive" slice}} class="video-player-slice-action">
+        {{#if active}}
+          <div
+            id="video-player-slice-progress-indicator"
+            style={{indicatorPositionPercentage}}
+          >
+          </div>
+        {{/if}}
         </div>
-      {{/if}}
-      <div class="video-player-slice-adjuster right" title="Click & drag to adjust size.">
-      </div>
+      {{slice-adjuster side="right" updateSize="adjustSize" saveSlice="save" mouseX=mouseAbsoluteX}}
     </div>
 
   </div>

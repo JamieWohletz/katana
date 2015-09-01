@@ -43,6 +43,7 @@ export default Ember.Component.extend({
     },
     delete: function(slice) {
       slice.destroyRecord();
+      this.set('activeSlice',null); 
     }
   }
 });

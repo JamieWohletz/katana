@@ -7,14 +7,14 @@
 }
 #video-player-input-wrapper input {
   width:640px;
-  height:25px;
+  height:30px;
 }
 #video-player-controls {
   margin-bottom:10px;
   width:640px;
 }
 #video-player-slice-button {
-  margin-bottom:5px;
+  margin-bottom:10px;
   font-weight:bold;
   font-size:1.1em;
   border:solid 1px darkgray;
@@ -28,26 +28,17 @@
   height:360px;
 }
 #video-player-slice-panel {
-  outline:solid 1px lightgray;
-  /*Fix padding overflow*/
-  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
-  box-sizing: border-box;         /* Opera/IE 8+ */
   width:640px;
   text-align:center;
 }
 .video-player-slice-parent {
-  border-bottom:solid 1px lightgray;
-}
-.video-player-slice-parent:last-child {
-  border-bottom:none;
+  background:lightgray;
+  margin-bottom:5px;
 }
 .video-player-slice-wrapper {
   display:block;
   position:relative;
-  /*border-right:solid 1px lightgray;
-  border-left:solid 1px lightgray;
-  border-bottom:solid 1px lightgray;*/
+  background:black;
   left: 12px;
   height:20px;
   width:616px;
@@ -62,6 +53,15 @@
   color:white;
   background: #b31217;
 }
+#video-player-slice-progress-indicator {
+  position: absolute;
+  top:-5px;
+  left:0;
+  width: 3px;
+  height:30px;
+  display: inline-block;
+  background: white;
+}
 .video-player-slice.active {
   background: #f12b24;
 }
@@ -72,7 +72,7 @@
 }
 .video-player-slice-delete {
   font-weight:bold;
-  color:lightgray;
+  color:red;
 }
 .video-player-slice-controls.left {
   right:628px;
@@ -86,14 +86,6 @@
   color:lightgray;
   font-weight:bold;
   text-decoration:none;
-}
-#video-player-slice-progress-indicator {
-  height: 100%;
-  width: 2px;
-  display: inline-block;
-  background: black;
-  position: absolute;
-  left:0;
 }
 
 #slice-sidebar {

@@ -10,11 +10,12 @@ export default Ember.Component.extend({
       if(activeSlice && !activeSlice.get('shouldRepeat')) {
         activeSlice.set('shouldRepeat',true);
         this.set('slicing',false);
-        activeSlice.save(); 
+        activeSlice.save();
         return;
       }
       this.set('slicing',true);
 
+      currentTime = isNaN(currentTime) ? 0 : currentTime; 
       this.sendAction('slice',currentTime);
     },
     updateActiveSlice: function(slice, isActive){

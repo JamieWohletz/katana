@@ -20,6 +20,9 @@ export default DS.Adapter.extend({
     var key = this._getKey(modelName);
     //returns a promise
     return localforage.getItem(key).then(function(jsonObj){
+      if(!jsonObj) {
+        return null;
+      }
       return jsonObj[modelName].findBy('id',id);
     });
   },
@@ -29,6 +32,9 @@ export default DS.Adapter.extend({
     var key = this._getKey(modelName);
 
     return localforage.getItem(key).then(function(wrapperObject){
+      if(!wrapperObject) {
+        return [];
+      }
       return wrapperObject[modelName];
     });
   },

@@ -51,7 +51,10 @@
   position:absolute;
   left:0;
   color:white;
-  background: #b31217;
+  background: #F12B24;
+}
+.video-player-slice.active {
+  background: #EDF33D;
 }
 #video-player-slice-progress-indicator {
   position: absolute;
@@ -64,10 +67,7 @@
 }
 .video-player-slice-action {
   width:100%;
-  height:100%; 
-}
-.video-player-slice.active {
-  background: #f12b24;
+  height:100%;
 }
 .video-player-slice-controls {
   position:absolute;
@@ -76,7 +76,7 @@
 }
 .video-player-slice-delete {
   font-weight:bold;
-  color:red;
+  color:#A40D08;
 }
 .video-player-slice-controls.left {
   right:628px;
@@ -89,7 +89,7 @@
 .video-player-slice-adjuster {
   position:absolute;
   top:0;
-  background:orange;
+  background:#096DBE;
   width:6px;
   height:100%;
   cursor:e-resize;

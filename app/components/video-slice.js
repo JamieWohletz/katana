@@ -70,14 +70,19 @@ export default Ember.Component.extend({
     var st = this.get('slice.startTime');
     var et = this.get('slice.endTime');
     var stoppingPoint;
+    var newValue;
 
     if(relativeToLeft) {
       stoppingPoint = et - this.MINIMUM_SLICE_DURATION;
-      this.set('slice.startTime',Math.min(stoppingPoint, st + newSeconds));
+      newValue = Math.min(stoppingPoint, st + newSeconds);
+      newValue = Math.max(0,newValue);
+      this.set('slice.startTime',newValue);
     }
     else {
       stoppingPoint = st + this.MINIMUM_SLICE_DURATION;
-      this.set('slice.endTime',Math.max(stoppingPoint, et + newSeconds));
+      newValue = Math.max(stoppingPoint, et + newSeconds);
+      newValue = Math.min(newValue,this.get('videoLength'));
+      this.set('slice.endTime',newValue);
     }
   },
 

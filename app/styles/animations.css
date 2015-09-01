@@ -1,0 +1,21 @@
+@-webkit-keyframes yellowGlow {
+  /*0% { box-shadow:none; }
+  25% { box-shadow: 0 0 9px #EDF33D; }*/
+  0% { box-shadow: 0 0 50px #EDF33D; }
+  50% { box-shadow: 0 0 25px #EDF33D; }
+  100% { box-shadow:none; }
+}
+@-webkit-keyframes blink {
+  0% {opacity:1;}
+  50% {opacity:0;}
+  100% {opacity:1;}
+}
+@-webkit-keyframes blinkFade {
+  0% {opacity:1;}
+  15% {opacity:.7;}
+  30% {opacity:.3;}
+  50% {opacity:0;}
+  65% {opacity:.3;}
+  80% {opacity:.7;}
+  100% {opacity:1;}
+}

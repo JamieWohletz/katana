@@ -18,12 +18,22 @@ export default Ember.Component.extend({
       this.sendAction('slice',currentTime);
     },
     updateActiveSlice: function(slice, isActive){
+      if(this.get('slicing')) {
+        this.set('slicing',false);
+      }
+
       if(!isActive) {
         this.set('project.activeSlice',null);
         return;
       }
       slice.set('shouldRepeat',true);
       this.set('project.activeSlice',slice);
+    },
+    deleteSlice: function(slice) {
+      if(this.get('project.activeSlice') === slice) {
+        this.set('slicing',false);
+      }
+      slice.destroyRecord(); 
     }
   }
 });

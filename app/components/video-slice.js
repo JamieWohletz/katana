@@ -2,7 +2,6 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   tagName:'div',
-  classNames: ['video-player-slice-parent'],
   videoLength: 0,
   activeSlice: null,
   slice: null,
@@ -103,8 +102,7 @@ export default Ember.Component.extend({
       var slice = this.get('slice.project').set('updatedAt',new Date());
     },
     delete: function(slice) {
-      slice.destroyRecord();
-      this.set('activeSlice',null);
+      this.sendAction('delete',slice);
     }
   }
 });

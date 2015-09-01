@@ -14,7 +14,8 @@ export default Ember.Component.extend({
     fs: 1,
     autohide:0,
     playsinline: 1,
-    modestbranding: 0
+    modestbranding: 0,
+    iv_load_policy: 3
   },
 
   //Computed Properties

@@ -2,12 +2,12 @@
     <!-- CLIP BUTTON -->
     <button
       id="video-player-slice-button"
-      class="pure-button {{if slicing 'pure-button-active red-button'}} square-edges"
+      class="pure-button {{if slicing 'pure-button-active active'}} square-edges"
       {{action "slice" videoCurrentTime}}
     >
-      {{fa-icon "circle"}}
+      {{fa-icon "scissors"}}
       {{#if slicing}}
-        Stop Clipping
+        Clipping
       {{else}}
         Clip
       {{/if}}
@@ -25,6 +25,7 @@
           slice=slice
           currentTime=videoCurrentTime
           toggleActive="updateActiveSlice"
+          delete="deleteSlice"
         }}
       {{/each}}
     </div>

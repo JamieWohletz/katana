@@ -1,10 +1,11 @@
-<div class="video-player-slice-parent">
+<div class="video-player-slice-parent {{if active 'active'}}">
   <div class="video-player-slice-wrapper">
     <div class="video-player-slice-controls left">
       <a
         class="video-player-slice-delete"
         href="#"
         {{action "delete" slice}}
+        title="Delete this row."
       >
         {{fa-icon "trash"}}
       </a>

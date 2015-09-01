@@ -10,9 +10,11 @@
     currentTime=videoPlayerCurrentTime
   }}
   <!-- SLICING CONTROLS -->
-  {{video-player-controls
-    project=activeProject
-    videoCurrentTime=videoPlayerCurrentTime
-    slice="createAndActivateSlice"
-  }}
+  <div id="video-player-controls-wrapper">
+    {{video-player-controls
+      project=activeProject
+      videoCurrentTime=videoPlayerCurrentTime
+      slice="createAndActivateSlice"
+    }}
+  </div>
 </div>

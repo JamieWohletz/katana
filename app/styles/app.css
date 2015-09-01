@@ -1,9 +1,17 @@
+@import './animations.css';
 @import './general.css';
+html {
+}
 #video-slicer {
-  margin:10px;
 }
 #video-player-input-wrapper {
-  margin-bottom:10px;
+  background: #f1f1f1;
+  padding: 10px 0;
+  font-size:1.2rem;
+}
+#video-player-input-wrapper label {
+  margin-bottom:5px;
+  display:block;
 }
 #video-player-input-wrapper input {
   width:640px;
@@ -14,26 +22,48 @@
   width:640px;
 }
 #video-player-slice-button {
+  background:#096DBE;
+  color:white;
   margin-bottom:10px;
   font-weight:bold;
   font-size:1.1em;
-  border:solid 1px darkgray;
+  border:solid 1px #1062A4;
+}
+#video-player-slice-button.active {
+  color:black;
+  border:solid 1px #d3d933;
+  background: #EDF33D;
+}
+#video-player-slice-button.active .fa {
+  -webkit-animation-name: blinkFade;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
 }
 #video-player {
-  margin-bottom:10px;
+  padding:10px 0;
+  background:black;
 }
 #EmberYoutube-player {
-  border:solid 1px gray;
   width:640px;
   height:360px;
+}
+#video-player-controls-wrapper {
+  background:#f1f1f1;
+  padding:10px 0;
 }
 #video-player-slice-panel {
   width:640px;
   text-align:center;
 }
 .video-player-slice-parent {
-  background:lightgray;
+  background:#474747;
   margin-bottom:5px;
+}
+.video-player-slice-parent.active {
+  outline:solid 2px #EDF33D;
+  -webkit-animation-name: yellowGlow;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: 1;
 }
 .video-player-slice-wrapper {
   display:block;

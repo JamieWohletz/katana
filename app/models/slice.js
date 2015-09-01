@@ -2,7 +2,7 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   shouldRepeat: null,
-  project: DS.belongsTo('project'),
+  project: DS.belongsTo('project', {async: true}),
   //all values are in seconds
   startTime: DS.attr('number'),
   endTime: DS.attr('number'),

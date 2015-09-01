@@ -30,7 +30,8 @@ export default Ember.Component.extend({
   //Observers
   _updateVideoLength: Ember.observer('project','youtubePlayer.durationValue', function(){
     var project = this.get('project');
-    if(project) {
+    var duration = this.get('youtubePlayer.durationValue');
+    if(project && duration > 0) {
       project.set('videoLength',this.get('youtubePlayer.durationValue'));
     }
   }),
@@ -50,7 +51,7 @@ export default Ember.Component.extend({
       s = as.get('startTime'),
       e = as.get('endTime'),
       c = this.get('currentTime');
-    if(!shouldRepeat || !s || !e) {
+    if(!shouldRepeat || isNaN(s) || isNaN(e)) {
       return;
     }
     if(c < s || c > e) {

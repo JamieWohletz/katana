@@ -1,13 +1,16 @@
 import Ember from 'ember';
-import { AutosaveProxy } from 'ember-autosave';
+import {AutosaveProxy} from 'ember-autosave';
 
 export default Ember.Route.extend({
   setupController: function(controller, model) {
-    controller.set('model',model); 
-    controller.set('activeProject',null);
+    controller.set('model',model);
+    controller.set('activeProject',model.get('lastObject'));
+    //force slices to load. this way, no matter what project the user wants to
+    //work with, they've got the data.
+    controller.set('slices',this.store.findAll('slice'));
   },
 
-  model: function(){
+  model: function(params){
     return this.store.findAll('project');
   },
 
@@ -20,11 +23,10 @@ export default Ember.Route.extend({
     if(!record) {
       record = this.store.createRecord('project',{
         videoId: videoId,
-        videoUrl: videoUrl,
-        createdAt: new Date(),
+        videoUrl: videoUrl
       });
     }
-    return AutosaveProxy.create({content:record});
+    return record;
   },
 
   actions: {
@@ -41,8 +43,12 @@ export default Ember.Route.extend({
         startTime:startTime,
         endTime:endTime
       });
-      project.get('slices').pushObject(AutosaveProxy.create({content:slice}));
+      project.get('slices').pushObject(slice);
+      slice.set('project',project);
       project.set('activeSlice',slice);
+
+      //make sure we record that we've added a new slice to this thing
+      project.save();
     }
   }
 });

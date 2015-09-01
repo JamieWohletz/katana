@@ -5,7 +5,7 @@ export default DS.Adapter.extend({
   namespace: 'katana',
 
   shouldBackgroundReloadRecord: function(store, snapshot) {
-    return false;
+    return true;
   },
 
   generateIdForRecord: function(store, inputProperties){
@@ -16,32 +16,37 @@ export default DS.Adapter.extend({
   },
 
   findRecord: function(store, type, id, snapshot) {
-    var key = this._getKey(type);
+    var modelName = type.modelName;
+    var key = this._getKey(modelName);
     //returns a promise
     return localforage.getItem(key).then(function(jsonObj){
-      return jsonObj[type].findBy('id',id);
+      return jsonObj[modelName].findBy('id',id);
     });
   },
 
   findAll: function(store, type, sinceToken) {
-    var key = this._getKey(type);
-    return localforage.getItem(key);
+    var modelName = type.modelName;
+    var key = this._getKey(modelName);
+
+    return localforage.getItem(key).then(function(wrapperObject){
+      return wrapperObject[modelName];
+    });
   },
 
   createRecord: function(store, type, snapshot) {
-    var key = this._getKey(type);
-    var objToSave = snapshot.attributes();
-    objToSave.id = snapshot.id;
+    var modelName = type.modelName;
+    var key = this._getKey(modelName);
     var self = this;
+    var objToSave = this._serialize(snapshot);
 
     return localforage.getItem(key).then(function(obj){
-      if(obj && obj[type]) {
-        obj[type].push(objToSave);
+      if(obj && obj[modelName]) {
+        obj[modelName].push(objToSave);
       }
 
-      var newArrayObject = self._wrapInJsonObject([objToSave],type);
+      var newArrayObject = self._wrapInJsonObject([objToSave],modelName);
       return localforage.setItem(key, obj || newArrayObject).then(function(value){
-        return self._wrapInJsonObject(objToSave,type);
+        return objToSave;
       });
     }, function(error){
       return null;
@@ -49,13 +54,16 @@ export default DS.Adapter.extend({
   },
 
   updateRecord: function(store, type, snapshot) {
-    var key = this._getKey(type);
+    var modelName = type.modelName;
+    var freshAttributes = this._serialize(snapshot);
+    var key = this._getKey(modelName);
+
     return localforage.getItem(key).then(function(jsonObj){
-      if(!jsonObj || !jsonObj[type]) {
+      if(!jsonObj || !jsonObj[modelName]) {
         return null;
       }
-      var updatedRecord = jsonObj[type].findBy('id',snapshot.id);
-      updatedRecord.setProperties(snapshot.attributes());
+      var updatedRecord = jsonObj[modelName].findBy('id',freshAttributes.id);
+      Ember.setProperties(updatedRecord, freshAttributes);
 
       return localforage.setItem(key,jsonObj).then(function(array){
         return updatedRecord;
@@ -64,11 +72,16 @@ export default DS.Adapter.extend({
   },
 
   deleteRecord: function(store, type, snapshot) {
-    var key = this._getKey(type);
-    var objToDelete = snapshot.attributes();
+    var modelName = type.modelName;
+    var key = this._getKey(modelName);
+    var objToDelete = this._serialize(snapshot);
+
     return localforage.getItem(key).then(function(jsonObj){
-      if(jsonObj && jsonObj[type]) {
-        jsonObj[type].removeAt(jsonObj[type].indexOf(objToDelete));
+      if(jsonObj && jsonObj[modelName]) {
+        var array = jsonObj[modelName];
+
+        array.removeObject(array.findBy('id',objToDelete.id));
+
         return localforage.setItem(key,jsonObj).then(function(array){
           return objToDelete;
         });
@@ -84,15 +97,22 @@ export default DS.Adapter.extend({
     //     item.
     //   });
     // });
+    return null;
   },
 
-  _wrapInJsonObject: function(object, type) {
+  _wrapInJsonObject: function(object, modelName) {
     var obj = {};
-    obj[type.modelName] = object;
+    obj[modelName] = object;
     return obj;
   },
 
-  _getKey: function(type) {
-    return [this.get('namespace'),type.modelName].join('-');
+  _getKey: function(modelName) {
+    return [this.get('namespace'),modelName].join('-');
+  },
+
+  _serialize: function(snapshot) {
+    var tmp = snapshot.serialize();
+    tmp.id = snapshot.id;
+    return tmp;
   }
 });

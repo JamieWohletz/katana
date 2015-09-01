@@ -6,6 +6,6 @@ export default DS.Model.extend({
   videoId: DS.attr('string'),
   videoUrl: DS.attr('string'),
   videoLength: DS.attr('number'), //seconds
-  slices: DS.hasMany('slice'),
-  createdAt: DS.attr('date')
+
+  slices: DS.hasMany('slice', {async:true})
 });

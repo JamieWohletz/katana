@@ -22,7 +22,7 @@ export default Ember.Component.extend({
 
   mouseUp: function(){
     this.set('dragging',false);
-    this.sendAction('saveSlice');
+    this.sendAction('save');
   },
 
   convertPercentageToSeconds: function(percentage) {

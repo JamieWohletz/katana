@@ -16,7 +16,7 @@
       style={{style}}
       title="Click to start/stop playing this clip on repeat."
       >
-      {{slice-adjuster side="left" updateSize="adjustSize" saveSlice="save" mouseX=mouseAbsoluteX}}
+      {{slice-adjuster side="left" updateSize="adjustSize" save="save" mouseX=mouseAbsoluteX}}
         <div {{action "toggleActive" slice}} class="video-player-slice-action">
         {{#if active}}
           <div
@@ -26,7 +26,7 @@
           </div>
         {{/if}}
         </div>
-      {{slice-adjuster side="right" updateSize="adjustSize" saveSlice="save" mouseX=mouseAbsoluteX}}
+      {{slice-adjuster side="right" updateSize="adjustSize" save="save" mouseX=mouseAbsoluteX}}
     </div>
 
   </div>

@@ -94,7 +94,7 @@ export default Ember.Component.extend({
       this.sendAction('toggleActive',slice,!this.get('active'));
     },
     save: function(){
-      this.get('slice').save();
+      var slice = this.get('slice.project').set('updatedAt',new Date());
     },
     delete: function(slice) {
       slice.destroyRecord();

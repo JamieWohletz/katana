@@ -2,7 +2,9 @@ import Ember from 'ember';
 import {AutosaveProxy} from 'ember-autosave';
 
 export default Ember.Route.extend({
+
   setupController: function(controller, model) {
+    model = model.sortBy('updatedAt');
     controller.set('model',model);
     controller.set('activeProject',model.get('lastObject'));
     //force slices to load. this way, no matter what project the user wants to
@@ -23,7 +25,8 @@ export default Ember.Route.extend({
     if(!record) {
       record = this.store.createRecord('project',{
         videoId: videoId,
-        videoUrl: videoUrl
+        videoUrl: videoUrl,
+        updatedAt: new Date()
       });
     }
     return record;
@@ -46,9 +49,7 @@ export default Ember.Route.extend({
       project.get('slices').pushObject(slice);
       slice.set('project',project);
       project.set('activeSlice',slice);
-
-      //make sure we record that we've added a new slice to this thing
-      project.save();
+      project.set('updatedAt', new Date());
     }
   }
 });

@@ -10,7 +10,6 @@ export default Ember.Component.extend({
       if(activeSlice && !activeSlice.get('shouldRepeat')) {
         activeSlice.set('shouldRepeat',true);
         this.set('slicing',false);
-        activeSlice.save();
         return;
       }
       this.set('slicing',true);

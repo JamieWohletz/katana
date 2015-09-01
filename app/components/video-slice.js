@@ -16,6 +16,7 @@ export default Ember.Component.extend({
   MINIMUM_SLICE_DURATION: 2,
 
   mouseMove: function(e) {
+    e.preventDefault();
     var self = this;
     Ember.run.scheduleOnce('afterRender',this,function(){
       self.set('mouseAbsoluteX',e.pageX);

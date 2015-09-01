@@ -1,7 +1,6 @@
 import DS from 'ember-data';
-import DebounceMixin from 'katana/mixins/debounce';
 
-export default DS.Model.extend(DebounceMixin, {
+export default DS.Model.extend({
   shouldRepeat: null,
   project: DS.belongsTo('project', {async: true}),
   //all values are in seconds
@@ -12,6 +11,6 @@ export default DS.Model.extend(DebounceMixin, {
   }),
 
   _autoSave: Ember.observer('startTime','endTime', function(){
-    this.debounce(this, this.save)();
+    Ember.run.debounce(this,this.save, 500);
   })
 });

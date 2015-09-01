@@ -17,6 +17,7 @@ export default Ember.Component.extend({
   title: 'Click & drag to adjust size.',
 
   mouseDown: function(e){
+    e.preventDefault();
     this.set('dragging',true);
   },
 

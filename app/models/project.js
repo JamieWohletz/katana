@@ -1,7 +1,6 @@
 import DS from 'ember-data';
-import DebounceMixin from 'katana/mixins/debounce';
 
-export default DS.Model.extend(DebounceMixin, {
+export default DS.Model.extend({
   activeSlice: null,
 
   videoId: DS.attr('string'),
@@ -12,6 +11,6 @@ export default DS.Model.extend(DebounceMixin, {
   slices: DS.hasMany('slice', {async:true}),
 
   _autoSave: Ember.observer('updatedAt', function(){
-    this.debounce(this, this.save)();
+    Ember.run.debounce(this,this.save, 500);
   })
 });

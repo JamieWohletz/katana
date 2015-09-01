@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Mixin.create({
   debounce: function (thisContext, func, wait, immediate) {
   	var timeout;
+    wait = wait || 1000;
   	return function() {
   		var context = thisContext, args = arguments;
   		var later = function() {

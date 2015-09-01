@@ -11,9 +11,7 @@ export default DS.Model.extend(DebounceMixin, {
     return this.get('endTime') - this.get('startTime');
   }),
 
-  //We want to automatically save the slice anytime it's changed,
-  //but we don't want to go crazy with it. So we'll save it every 250 ms.
   _autoSave: Ember.observer('startTime','endTime', function(){
-    this.debounce(this, this.save, 250)();
+    this.debounce(this, this.save)();
   })
 });

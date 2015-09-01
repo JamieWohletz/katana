@@ -5,9 +5,11 @@ html {
 #video-slicer {
 }
 #video-player-input-wrapper {
-  background: #f1f1f1;
-  padding: 10px 0;
   font-size:1.2rem;
+}
+#video-player-input-wrapper, #video-player-controls-wrapper {
+  padding: 10px 0;
+  background: #f1f1f1;
 }
 #video-player-input-wrapper label {
   margin-bottom:5px;
@@ -51,8 +53,6 @@ html {
   height:360px;
 }
 #video-player-controls-wrapper {
-  background:#f1f1f1;
-  padding:10px 0;
 }
 #video-player-slice-panel {
   width:640px;
@@ -63,8 +63,8 @@ html {
   margin-bottom:5px;
 }
 .video-player-slice-parent.active {
-  outline:solid 2px #EDF33D;
-  -webkit-animation-name: yellowGlow;
+  background:#EDF33D;
+  -webkit-animation-name: blueGlow;
   -webkit-animation-duration: 1s;
   -webkit-animation-iteration-count: 1;
 }

@@ -1,15 +1,12 @@
-@-webkit-keyframes yellowGlow {
-  0% { box-shadow: 0 0 50px #EDF33D; }
-  25% { box-shadow: 0 0 35px #EDF33D; }
-  50% { box-shadow: 0 0 25px #EDF33D; }
-  75% { box-shadow: 0 0 10px #EDF33D; }
-  100% { box-shadow:none; }
-}
 @-webkit-keyframes blueGlow {
   0% { box-shadow: 0 0 50px #096DBE; }
-  25% { box-shadow: 0 0 35px #096DBE; }
-  50% { box-shadow: 0 0 25px #096DBE; }
-  75% { box-shadow: 0 0 10px #096DBE; }
+  20% { box-shadow: 0 0 40px #096DBE; }
+  40% { box-shadow: 0 0 30px #096DBE; }
+  60% { box-shadow: 0 0 20px #096DBE; }
+  80% { box-shadow: 0 0 10px #096DBE; }
+  85% { box-shadow: 0 0 7px #096DBE; }
+  90% { box-shadow: 0 0 5px #096DBE; }
+  95% { box-shadow: 0 0 2px #096DBE; }
   100% { box-shadow:none; }
 }
 @-webkit-keyframes blink {

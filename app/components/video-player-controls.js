@@ -15,7 +15,7 @@ export default Ember.Component.extend({
       }
       this.set('slicing',true);
 
-      currentTime = isNaN(currentTime) ? 0 : currentTime; 
+      currentTime = isNaN(currentTime) ? 0 : currentTime;
       this.sendAction('slice',currentTime);
     },
     updateActiveSlice: function(slice, isActive){

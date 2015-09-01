@@ -9,6 +9,7 @@
         {{fa-icon "trash"}}
       </a>
     </div>
+    <!-- This is the slice itself -->
     <div
       {{action "toggleActive" slice}}
       class="video-player-slice
@@ -16,6 +17,8 @@
       style={{style}}
       title="Click to start/stop playing this clip on repeat."
       >
+      <div class="video-player-slice-adjuster left" title="Click & drag to adjust size.">
+      </div>
       {{#if active}}
         <div
           id="video-player-slice-progress-indicator"
@@ -23,6 +26,9 @@
         >
         </div>
       {{/if}}
+      <div class="video-player-slice-adjuster right" title="Click & drag to adjust size.">
+      </div>
     </div>
+
   </div>
 </div>

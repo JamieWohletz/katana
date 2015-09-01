@@ -83,11 +83,19 @@
   left:628px;
 }
 .video-player-slice-adjuster {
-  color:lightgray;
-  font-weight:bold;
-  text-decoration:none;
+  position:absolute;
+  top:0;
+  background:orange;
+  width:6px;
+  height:100%;
+  cursor:e-resize;
 }
-
+.video-player-slice-adjuster.left {
+  left:-6px;
+}
+.video-player-slice-adjuster.right {
+  right:-6px;
+}
 #slice-sidebar {
   margin:0 10px
 }

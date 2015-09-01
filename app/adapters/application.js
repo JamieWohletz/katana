@@ -4,8 +4,12 @@ import DS from 'ember-data';
 export default DS.Adapter.extend({
   namespace: 'katana',
 
-  shouldBackgroundReloadRecord: function(store, snapshot) {
+  shouldReloadAll: function(){
     return true;
+  },
+
+  shouldBackgroundReloadRecord: function(store, snapshot) {
+    return false;
   },
 
   generateIdForRecord: function(store, inputProperties){

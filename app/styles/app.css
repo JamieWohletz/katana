@@ -16,6 +16,9 @@ html {
 #video-player-input-wrapper input {
   width:640px;
   height:30px;
+  -webkit-animation-name: blueGlow;
+  -webkit-animation-duration: 3s;
+  -webkit-animation-iteration-count: 1;
 }
 #video-player-controls {
   margin-bottom:10px;

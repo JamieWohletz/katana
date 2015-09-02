@@ -30,6 +30,9 @@ html {
   -webkit-animation-duration: 3s;
   -webkit-animation-iteration-count: 1;
 }
+#project-information {
+  white-space: nowrap;
+}
 #project-information, #project-list-wrapper {
   padding: 5px 0;
   font-size:.8rem;

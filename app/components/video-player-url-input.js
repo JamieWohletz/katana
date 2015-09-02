@@ -1,10 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  //These are never directly set here in this component.
-  //They are just used to update the appearance of the component.
-  //projects is used for history
-  projects: null,
   //project is used to ensure the input is filled appropriately
   //when this component is first constructed
   project: null,

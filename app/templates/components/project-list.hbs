@@ -1,0 +1,26 @@
+<div id="project-list-wrapper">
+  <a href="#" id="project-list-toggle" {{action "toggleShow"}}>
+    {{#if showList}}
+      {{fa-icon "minus"}}
+    {{else}}
+      {{fa-icon "plus"}}
+    {{/if}}
+    saved projects
+  </a>
+  {{#if showList}}
+    <div id="project-list">
+      {{#each projects as |project|}}
+        <div class="item">
+          {{fa-icon "caret-right"}}
+          {{#if (eq activeProject project)}}
+            {{project.title}} - {{project.slices.length}} clips
+          {{else}}
+            <a href="#" {{action "setProject" project}}>
+              {{project.title}} - {{project.slices.length}} clips
+            </a>
+          {{/if}}
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+</div>

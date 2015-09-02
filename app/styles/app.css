@@ -2,29 +2,54 @@
 @import './general.css';
 html {
 }
+/*Since our player has a fixed width, all our divs should be that size too.*/
+.force-width{
+  width:640px;
+}
+
 #video-slicer {
 }
-#video-player-input-wrapper {
-  font-size:1.2rem;
-}
-#video-player-input-wrapper, #video-player-controls-wrapper {
+#video-slicer-top, #video-slicer-bottom, #video-slicer-center {
   padding: 10px 0;
   background: #f1f1f1;
+  font-size:1.2rem;
 }
-#video-player-input-wrapper label {
+#video-slicer-center {
+  background:black;
+}
+#video-player-url-input-wrapper {
+  padding-bottom: 5px;
+}
+#video-player-url-input-wrapper label {
   margin-bottom:5px;
   display:block;
 }
-#video-player-input-wrapper input {
-  width:640px;
-  height:30px;
+#video-player-url-input-wrapper input {
+  width:100%;
   -webkit-animation-name: blueGlow;
   -webkit-animation-duration: 3s;
   -webkit-animation-iteration-count: 1;
 }
-#video-player-controls {
-  margin-bottom:10px;
+#project-information, #project-list-wrapper {
+  padding: 5px 0;
+  font-size:.8rem;
+}
+#project-title-box {
+}
+#project-list {
+  padding-top:5px;
+  padding-left:15px;
+}
+#project-list .item {
+  padding:2px 0;
+}
+#video-player {
+}
+#EmberYoutube-player {
   width:640px;
+  height:360px;
+}
+#video-player-controls {
 }
 #video-player-slice-button {
   background:#096DBE;
@@ -43,20 +68,6 @@ html {
   -webkit-animation-name: blinkFade;
   -webkit-animation-duration: 1s;
   -webkit-animation-iteration-count: infinite;
-}
-#video-player {
-  padding:10px 0;
-  background:black;
-}
-#EmberYoutube-player {
-  width:640px;
-  height:360px;
-}
-#video-player-controls-wrapper {
-}
-#video-player-slice-panel {
-  width:640px;
-  text-align:center;
 }
 .video-player-slice-parent {
   background:#474747;
@@ -115,10 +126,6 @@ html {
   right:628px;
   width:25px;
 }
-.video-player-slice-controls.right {
-  width:25px;
-  left:628px;
-}
 .video-player-slice-adjuster {
   position:absolute;
   top:0;
@@ -132,7 +139,4 @@ html {
 }
 .video-player-slice-adjuster.right {
   right:-6px;
-}
-#slice-sidebar {
-  margin:0 10px
 }

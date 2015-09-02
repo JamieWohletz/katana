@@ -1,0 +1,10 @@
+<div id="project-information" class="pure-form">
+    <label for="project-title-box">Project name:</label>
+    {{input id="project-title-box" type="text" value=project.title class="square-edges"}}
+    -
+    {{project.slices.length}} clips
+    |
+    <a href={{project.videoUrl}} target="_blank">YouTube video</a>
+    -
+    {{format-number project.videoLength}} seconds long
+</div>

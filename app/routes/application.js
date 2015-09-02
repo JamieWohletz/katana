@@ -24,6 +24,7 @@ export default Ember.Route.extend({
     record = this.get('controller.model').findBy('videoId',videoId);
     if(!record) {
       record = this.store.createRecord('project',{
+        title: videoId,
         videoId: videoId,
         videoUrl: videoUrl,
         updatedAt: new Date()

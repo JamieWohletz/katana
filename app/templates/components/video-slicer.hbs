@@ -1,20 +1,37 @@
 <div id="video-slicer">
-  <!-- VIDEO INPUT -->
-  {{video-player-url-input
-    projects=projects
-    project=activeProject
-    action="updateVideoInformation"}}
+  <div id="video-slicer-top">
+    <div class="force-width center">
+      <!-- VIDEO INPUT -->
+      {{video-player-url-input
+        project=activeProject
+        action="updateProjectInformation"}}
+      {{#if activeProject}}
+        <!-- CURRENT PROJECT INFORMATION (only show if there is an activeProject) -->
+        {{project-information project=activeProject}}
+      {{/if}}
+      {{#if projects}}
+        <!-- SAVED PROJECTS LIST (only show if there are saved projects)-->
+        {{project-list projects=projects activeProject=activeProject setProject="setActiveProject"}}
+      {{/if}}
+    </div>
+  </div>
   <!-- VIDEO PLAYER -->
-  {{video-player
-    project=activeProject
-    currentTime=videoPlayerCurrentTime
-  }}
-  <!-- SLICING CONTROLS -->
-  <div id="video-player-controls-wrapper">
-    {{video-player-controls
-      project=activeProject
-      videoCurrentTime=videoPlayerCurrentTime
-      slice="createAndActivateSlice"
-    }}
+  <div id="video-slicer-center">
+    <div class="force-width center">
+      {{video-player
+        project=activeProject
+        currentTime=videoPlayerCurrentTime
+      }}
+    </div>
+  </div>
+  <div id="video-slicer-bottom">
+    <div class="force-width center">
+      <!-- SLICING CONTROLS -->
+      {{video-player-controls
+        project=activeProject
+        videoCurrentTime=videoPlayerCurrentTime
+        slice="createAndActivateSlice"
+      }}
+    </div>
   </div>
 </div>

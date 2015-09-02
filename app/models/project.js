@@ -9,7 +9,7 @@ export default DS.Model.extend({
   videoLength: DS.attr('number'), //seconds
   updatedAt: DS.attr('date'),
 
-  slices: DS.hasMany('slice', {async:true}),
+  slices: DS.hasMany('slice'),
 
   //"But sir!", you ask, "Why not just listen to all these in the autosave method?"
   //Well, my good friend, it's because we need to keep udpatedAt completely up to date
@@ -20,5 +20,14 @@ export default DS.Model.extend({
 
   _autoSave: Ember.observer('updatedAt', function(){
     Ember.run.debounce(this,this.save, 500);
-  })
+  }),
+
+  destroyRecord: function() {
+    var slices = this.get('slices');
+    var response = this._super();
+    slices.forEach(function(slice){
+      slice.destroyRecord();
+    });
+    return response;
+  }
 });

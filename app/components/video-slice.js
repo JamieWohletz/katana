@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   videoLength: 0,
   activeSlice: null,
   slice: null,
+  slicing: false,
   currentTime: null,
   //we need to track this for slice size adjustment
   mouseAbsoluteX: null,
@@ -25,13 +26,21 @@ export default Ember.Component.extend({
   percentageWidth: Ember.computed('slice.duration','videoLength', function(){
     var d = +this.get('slice.duration');
     var l = +this.get('videoLength');
-    return (d/l * 100).toFixed(2);
+    var width = (d/l * 100).toFixed(2);
+    if(isNaN(width)) {
+      width = 0;
+    }
+    return width;
   }),
 
   percentageLeft: Ember.computed('slice.startTime','videoLength', function(){
     var s = +this.get('slice.startTime');
     var l = +this.get('videoLength');
-    return (s/l * 100).toFixed(2);
+    var left = (s/l * 100).toFixed(2);
+    if(isNaN(left)) {
+      left = 0;
+    }
+    return left;
   }),
 
   active: Ember.computed('activeSlice', function(){
@@ -52,10 +61,10 @@ export default Ember.Component.extend({
     );
   }),
 
-  _updateActiveSliceEndTime: Ember.observer('currentTime', function(){
+  _updateActiveSliceEndTime: Ember.observer('activeSlice', 'currentTime', 'slicing', function(){
     var active = this.get('activeSlice');
     var time = this.get('currentTime');
-    if(!active || active !== this.get('slice') || active.get('shouldRepeat')) {
+    if(!active || active !== this.get('slice') || !this.get('slicing')) {
       return;
     }
     if(time > active.get('startTime')) {

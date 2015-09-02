@@ -13,6 +13,7 @@ export default Ember.Component.extend({
       this.sendAction('createAndActivateSlice',startTime,startTime,this.get('activeProject'));
     },
     setActiveProject: function(project) {
+      this.get('activeProject').set('activeSlice',null);
       project.set('updatedAt', new Date());
       this.set('activeProject',project);
     },

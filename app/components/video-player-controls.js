@@ -6,16 +6,17 @@ export default Ember.Component.extend({
   disableButton: Ember.computed('project', function(){
     return !this.get('project');
   }),
+  _projectChanged: Ember.observer('project', function(){
+    this.set('slicing', false);
+  }),
   actions: {
     slice: function(currentTime) {
       if(!this.get('project')) {
         return;
       }
 
-      var activeSlice = this.get('project.activeSlice');
-
-      if(activeSlice && !activeSlice.get('shouldRepeat')) {
-        activeSlice.set('shouldRepeat',true);
+      this.set('project.activeSlice', null);
+      if(this.get('slicing')) {
         this.set('slicing',false);
         return;
       }
@@ -40,6 +41,7 @@ export default Ember.Component.extend({
       if(this.get('project.activeSlice') === slice) {
         this.set('slicing',false);
       }
+      this.set('project.activeSlice', null);
       slice.destroyRecord();
     }
   }

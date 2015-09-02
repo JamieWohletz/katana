@@ -3,8 +3,15 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   project: null,
   slicing:false,
+  disableButton: Ember.computed('project', function(){
+    return !this.get('project');
+  }),
   actions: {
     slice: function(currentTime) {
+      if(!this.get('project')) {
+        return;
+      }
+
       var activeSlice = this.get('project.activeSlice');
 
       if(activeSlice && !activeSlice.get('shouldRepeat')) {
@@ -33,7 +40,7 @@ export default Ember.Component.extend({
       if(this.get('project.activeSlice') === slice) {
         this.set('slicing',false);
       }
-      slice.destroyRecord(); 
+      slice.destroyRecord();
     }
   }
 });

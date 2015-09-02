@@ -10,7 +10,7 @@ export default Ember.Route.extend({
       if(project.get('updatedAt') > mostRecentProject.get('updatedAt')) {
         mostRecentProject = project;
       }
-    })
+    });
 
     controller.set('activeProject',mostRecentProject);
 
@@ -57,7 +57,6 @@ export default Ember.Route.extend({
       project.get('slices').pushObject(slice);
       slice.set('project',project);
       project.set('activeSlice',slice);
-      project.set('updatedAt', new Date());
     }
   }
 });

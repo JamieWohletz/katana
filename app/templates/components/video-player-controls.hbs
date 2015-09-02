@@ -4,6 +4,7 @@
       id="video-player-slice-button"
       class="pure-button {{if slicing 'pure-button-active active'}} square-edges"
       {{action "slice" videoCurrentTime}}
+      disabled={{disableButton}}
     >
       {{fa-icon "scissors"}}
       {{#if slicing}}

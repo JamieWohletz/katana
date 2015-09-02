@@ -11,9 +11,13 @@ export default DS.Model.extend({
 
   slices: DS.hasMany('slice', {async:true}),
 
-  _titleUpdated: Ember.observer('title', function(){
-    this.set('updatedAt',new Date());
+  //"But sir!", you ask, "Why not just listen to all these in the autosave method?"
+  //Well, my good friend, it's because we need to keep udpatedAt completely up to date
+  //because we use it to determine which project to load first.
+  _touched: Ember.observer('slices.@each','title','videoId','videoUrl','videoLength', function(){
+    this.set('updatedAt', new Date());
   }),
+
   _autoSave: Ember.observer('updatedAt', function(){
     Ember.run.debounce(this,this.save, 500);
   })

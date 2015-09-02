@@ -14,6 +14,20 @@ export default Ember.Component.extend({
     },
     setActiveProject: function(project) {
       this.set('activeProject',project);
+    },
+    deleteProject: function(project) {
+      if(!confirm("Are you sure you'd like to delete this project? You will lose all your clips!")) {
+        return;
+      }
+      var self = this;
+      project.destroyRecord().then(function(){
+        if(self.get('projects.length') > 0) {
+          self.set('activeProject',self.get('projects').get('lastObject'));
+        }
+        else {
+          self.set('activeProject',null);
+        }
+      });
     }
   }
 });

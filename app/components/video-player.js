@@ -10,7 +10,7 @@ export default Ember.Component.extend({
     controls: 1,
     enablejsapi: 1,
     rel: 0, // disable related videos
-    showinfo: 0,
+    showinfo: 1,
     fs: 1,
     autohide:0,
     playsinline: 1,
@@ -58,6 +58,18 @@ export default Ember.Component.extend({
     if(c < s || c > e) {
       this.seekTo(s);
     }
+  }),
+  _clearVideoIfNecessary: Ember.observer('project', function(){
+    var player;
+    if(this.get('project')) {
+      return;
+    }
+
+    player = this.get('youtubePlayer.player');
+    player.stopVideo();
+    //we have to do this because for some reason, player.clearVideo() doesn't work.
+    //thanks, YouTube.
+    player.loadVideoById('',0);
   }),
 
   //Methods

@@ -1,10 +1,21 @@
-<div id="project-information" class="pure-form">
+<div id="project-information" class="pure-form pure-g">
+  <div class="pure-u-2-3">
+    <span>
     <label for="project-title-box">Project name:</label>
     {{input id="project-title-box" type="text" value=project.title class="square-edges"}}
     -
     {{project.slices.length}} clips
+    </span>
+  </div>
+  <div id="project-information-save-delete" class="pure-u-1-3 text-right">
+    {{#if project.hasDirtyAttributes}}
+      {{fa-icon "clock-o"}} saving...
+    {{else}}
+      <span class="dark-green-text">
+        {{fa-icon "check"}} saved!
+      </span>
+    {{/if}}
     |
-    <a href={{project.videoUrl}} target="_blank">YouTube video</a>
-    -
-    {{format-number project.videoLength}} seconds long
+    <a href="#" class="dark-red-text" {{action "deleteProject" project}}>{{fa-icon "trash"}}</a>
+  </div>
 </div>

@@ -36,6 +36,9 @@ html {
 }
 #project-title-box {
 }
+#project-information-save-delete {
+  padding:6px 0;
+}
 #project-list {
   padding-top:5px;
   padding-left:15px;
@@ -44,10 +47,21 @@ html {
   padding:2px 0;
 }
 #video-player {
+  position:relative;
 }
-#EmberYoutube-player {
-  width:640px;
-  height:360px;
+#video-player-help, #EmberYoutube-player {
+  width: 640px;
+  height: 360px;
+}
+#video-player-help {
+  position: absolute;
+  left:0;
+  top:0;
+  color:white;
+  background: black;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
 }
 #video-player-controls {
 }
@@ -120,7 +134,6 @@ html {
 }
 .video-player-slice-delete {
   font-weight:bold;
-  color:#A40D08;
 }
 .video-player-slice-controls.left {
   right:628px;

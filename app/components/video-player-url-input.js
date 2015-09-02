@@ -14,16 +14,23 @@ export default Ember.Component.extend({
     return null;
   },
 
-  _init: Ember.on('didInsertElement', function(){
-    var project = this.get('project');
-    var input = this.get('fieldInput');
-    if(!input && project && project.get('videoUrl')) {
-      this.set('fieldInput', project.get('videoUrl'));
+  fieldInput: Ember.computed('project.videoUrl', {
+    get() {
+      var project = this.get('project');
+
+      if(project && project.get('videoUrl')) {
+        return project.get('videoUrl');
+      }
+
+      return '';
+    },
+    set(key, value) {
+      return value;
     }
   }),
 
   _updateVideo: Ember.observer('fieldInput',function(){
-    var url = this.get('fieldInput') || '';
+    var url = (this.get('fieldInput') || '').trim();
     var id = this.extractVideoIdFromUrl(url);
     if(!id) {
       return;

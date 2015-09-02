@@ -2,6 +2,9 @@ a {
   text-decoration:none;
   color:#096DBE;
 }
+a:hover {
+  color:#1590F4;
+}
 
 .no-select {
     -webkit-touch-callout: none;
@@ -14,6 +17,15 @@ a {
 
 .red-text {
   color: #f12b24;
+}
+.green-text {
+  color:#24F16C;
+}
+.dark-green-text {
+  color:#00A439;
+}
+.dark-red-text {
+  color:#A40D08;
 }
 .red-button {
   color:white;
@@ -32,6 +44,12 @@ a {
 .center {
   margin-right:auto;
   margin-left:auto;
+}
+.float-right {
+  float:right;
+}
+.float-left {
+  float:left;
 }
 .square-edges {
   border-radius:0 !important;

@@ -7,7 +7,7 @@
         action="updateProjectInformation"}}
       {{#if activeProject}}
         <!-- CURRENT PROJECT INFORMATION (only show if there is an activeProject) -->
-        {{project-information project=activeProject}}
+        {{project-information project=activeProject deleteProject="deleteProject"}}
       {{/if}}
       {{#if projects}}
         <!-- SAVED PROJECTS LIST (only show if there are saved projects)-->

@@ -4,9 +4,16 @@ import {AutosaveProxy} from 'ember-autosave';
 export default Ember.Route.extend({
 
   setupController: function(controller, model) {
-    model = model.sortBy('updatedAt');
+    var mostRecentProject = model.get('lastObject');
     controller.set('model',model);
-    controller.set('activeProject',model.get('lastObject'));
+    model.forEach(function(project) {
+      if(project.get('updatedAt') > mostRecentProject.get('updatedAt')) {
+        mostRecentProject = project;
+      }
+    })
+
+    controller.set('activeProject',mostRecentProject);
+
     //force slices to load. this way, no matter what project the user wants to
     //work with, they've got the data.
     controller.set('slices',this.store.findAll('slice'));

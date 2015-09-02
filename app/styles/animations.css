@@ -1,3 +1,14 @@
+@-webkit-keyframes yellowGlow {
+  0% { box-shadow: 0 0 50px #EDF33D; }
+  20% { box-shadow: 0 0 40px #EDF33D; }
+  40% { box-shadow: 0 0 30px #EDF33D; }
+  60% { box-shadow: 0 0 20px #EDF33D; }
+  80% { box-shadow: 0 0 10px #EDF33D; }
+  85% { box-shadow: 0 0 7px #EDF33D; }
+  90% { box-shadow: 0 0 5px #EDF33D; }
+  95% { box-shadow: 0 0 2px #EDF33D; }
+  100% { box-shadow:none; }
+}
 @-webkit-keyframes blueGlow {
   0% { box-shadow: 0 0 50px #096DBE; }
   20% { box-shadow: 0 0 40px #096DBE; }

@@ -64,7 +64,7 @@ html {
 }
 .video-player-slice-parent.active {
   background:#EDF33D;
-  -webkit-animation-name: blueGlow;
+  -webkit-animation-name: yellowGlow;
   -webkit-animation-duration: 1s;
   -webkit-animation-iteration-count: 1;
 }
